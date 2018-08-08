@@ -16,12 +16,12 @@ namespace ChatServer.Callbacks
             _id = id;
         }
 
-        public override void Ack(IValue1 value)
+        public override void Ack(string value)
         {
             _network.Ack(_peer, _id, value);
         }
 
-        public override void Fail(IValue1 value)
+        public override void Fail(string value)
         {
             _network.Fail(_peer, _id, value);
         }

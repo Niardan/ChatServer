@@ -25,9 +25,9 @@ namespace ChatServer.Protocol
         void Connect(string host, int port);
         void Disconnect(string address);
         
-        void Request(string address, long id, IMessage message);
-        void Ack(string address, int id, string text);
-        void Fail(string address, int id, string text);
+        void Request(string address, long id, IValue1 value);
+        void Ack(string address, long id, string text);
+        void Fail(string address, long id, string text);
         void Error(string address, string message);
     }
 }

@@ -5,13 +5,13 @@ namespace ChatServer.Messages
     [MessagePackObject]
     public class Message : IMessage
     {
-        public Message(int id, string typeMessage)
+        public Message(long id, string typeMessage)
         {
             Id = id;
             TypeMessage = typeMessage;
         }
         [Key(0)]
-        public int Id { get; set; }
+        public long Id { get; set; }
         [Key(1)]
         public string TypeMessage { get; set; }
     }

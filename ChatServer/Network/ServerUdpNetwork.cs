@@ -46,7 +46,7 @@ namespace ChatServer.Network
             public string Destination { get { return _destination; } }
             public string Peer { get { return _peer; } }
 
-            public void Request(IOwner owner, IValue value)
+            public void Request(IOwner owner, IValue1 value)
             {
                 var node = _sent.AddLast(new RequestInfo((long)_now.Get, owner, _count, this));
                 _requests.Add(_count, node);
@@ -105,10 +105,9 @@ namespace ChatServer.Network
 
         private readonly LinkedList<RequestInfo> _sent = new LinkedList<RequestInfo>();
 
-        public ProtocolUdpNetwork(IUdpProtocol protocol, INow now, int timeout)
+        public ServerUdpNetwork(IUdpProtocol protocol, int timeout)
         {
             _protocol = protocol;
-            _now = now;
             _timeout = timeout;
         }
 
@@ -235,7 +234,7 @@ namespace ChatServer.Network
             _protocol.Error(address, value);
         }
 
-        public void Ack(string peer, long id, IValue value)
+        public void Ack(string peer, long id, string value)
         {
             ServerPeer serverPeer;
             if (_fromPeer.TryGetValue(peer, out serverPeer))

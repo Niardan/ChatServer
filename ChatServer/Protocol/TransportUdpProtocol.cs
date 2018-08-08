@@ -63,17 +63,17 @@ namespace ChatServer.Protocol
             _transport.Disconnect(address);
         }
 
-        public override void Request(string address, long id, IMessage message)
+        public override void Request(string address, long id, IValue1 value)
         {
-            Send(address, message);
+            Send(address, new RequestMessage(id, value));
         }
 
-        public override void Ack(string address, int id, string text)
+        public override void Ack(string address, long id, string text)
         {
             Response(address, _ack, id, text);
         }
 
-        public override void Fail(string address, int id, string text)
+        public override void Fail(string address, long id, string text)
         {
             Response(address, _fail, id, text);
         }

@@ -4,7 +4,7 @@ namespace ChatServer.Callbacks
 {
     public abstract class Callbacks : ICallbacks
     {
-        public abstract void Ack(IValue1 value);
-        public abstract void Fail(IValue1 value);
+        public abstract void Ack(string value);
+        public abstract void Fail(string value);
     }
 }

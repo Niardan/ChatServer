@@ -6,7 +6,7 @@ namespace ChatServer.Messages
     [MessagePackObject]
     public class RequestMessage : Message
     {
-        public RequestMessage(int id, string name, IValue1 value) : base(id, "request")
+        public RequestMessage(long id, IValue1 value) : base(id, "request")
         {
             Value = value;
         }

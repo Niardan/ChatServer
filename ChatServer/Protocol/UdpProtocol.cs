@@ -19,9 +19,9 @@ namespace ChatServer.Protocol
         public abstract void Connect(string host, int port);
         public abstract void Disconnect(string address);
         
-        public abstract void Request(string address, long id, IMessage value);
-        public abstract void Ack(string address, int id, string text);
-        public abstract void Fail(string address, int id, string text);
+        public abstract void Request(string address, long id, IValue1 value);
+        public abstract void Ack(string address, long id, string text);
+        public abstract void Fail(string address, long id, string text);
         public abstract void Error(string address, string value);
 
         protected void CallConnected(string address)

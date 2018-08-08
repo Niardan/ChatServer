@@ -5,7 +5,7 @@
     [MessagePack.Union(2, typeof(ResponseMessage))]
     public interface IMessage
     {
-        int Id { get; }
+        long Id { get; }
         string TypeMessage { get; }
     }
 }
