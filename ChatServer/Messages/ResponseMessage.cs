@@ -6,7 +6,7 @@ namespace ChatServer.Messages
     [MessagePackObject]
     public class ResponseMessage : Message
     {
-        public ResponseMessage(int id,  IValue1 answer) : base(id, "request")
+        public ResponseMessage(long id,  IValue1 answer) : base(id, "request")
         {
             Answer = answer;
         }

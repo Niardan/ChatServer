@@ -5,7 +5,7 @@ namespace ChatServer.Protocol
 {
     public delegate void ProtocolConnectedHandler(IUdpProtocol protocol, string address);
     public delegate void ProtocolDisconnectedHandler(IUdpProtocol protocol, string address);
-    public delegate void ProtocolAuthorizeReceived(IUdpProtocol protocol, string address, string name);
+    public delegate void ProtocolAuthorizeReceived(IUdpProtocol protocol, string address, long id, string name);
     public delegate void ProtocolRequestReceived(IUdpProtocol protocol, string address, long id, IValue1 message);
     public delegate void ProtocolResponseReceived(IUdpProtocol protocol, string address, long id, IValue1 message);
 
@@ -13,7 +13,7 @@ namespace ChatServer.Protocol
     {
         event ProtocolConnectedHandler Connected;
         event ProtocolDisconnectedHandler Disconnectd;
-     
+        event ProtocolAuthorizeReceived AuthorizeReceived;
         event ProtocolRequestReceived RequestReceived;
         event ProtocolResponseReceived ResponseReceived;
 

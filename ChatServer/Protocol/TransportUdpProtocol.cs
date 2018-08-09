@@ -84,7 +84,7 @@ namespace ChatServer.Protocol
             Send(address, message);
         }
 
-        private void Response(string address, string response, int id, string text)
+        private void Response(string address, string response, long id, string text)
         {
             var message = new ResponseMessage(id, new ResponseValue(response, text));
             Send(address, message);
@@ -138,7 +138,7 @@ namespace ChatServer.Protocol
             var autorizeMessage = message as AuthorizeMessage;
             if (autorizeMessage != null && autorizeMessage.Name != null)
             {
-                CallAuthorizeReceived(address, autorizeMessage.Name);
+                CallAuthorizeReceived(address, autorizeMessage.Id, autorizeMessage.Name);
             }
             else
             {

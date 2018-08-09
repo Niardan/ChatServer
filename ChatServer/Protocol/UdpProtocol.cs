@@ -40,11 +40,11 @@ namespace ChatServer.Protocol
             }
         }
 
-        protected void CallAuthorizeReceived(string address, string name)
+        protected void CallAuthorizeReceived(string address, long id, string name)
         {
             if (AuthorizeReceived != null)
             {
-                AuthorizeReceived(this, address, name);
+                AuthorizeReceived(this, address, id, name);
             }
         }
 
