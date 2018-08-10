@@ -1,6 +1,6 @@
-﻿using MessagePack;
-using Network.Messages;
+﻿using Network.Messages;
 using Network.Transport;
+using Network.Utils;
 using Network.Values;
 
 namespace Network.Protocol
@@ -8,6 +8,7 @@ namespace Network.Protocol
     public class TransportUdpProtocol : UdpProtocol
     {
         private readonly IUdpTransport _transport;
+        private readonly ISerializer _serializer;
         private readonly int _maxMessageSize;
 
         private const string _ack = "ack";
@@ -19,10 +20,11 @@ namespace Network.Protocol
         private const string _invalidRequest = "invalidRequest";
         private const string _invalidResponse = "invalidResponse";
 
-        public TransportUdpProtocol(IUdpTransport transport, int maxMessageSize)
+        public TransportUdpProtocol(IUdpTransport transport, int maxMessageSize, ISerializer serializer)
         {
             _transport = transport;
             _maxMessageSize = maxMessageSize;
+            _serializer = serializer;
         }
 
         public override bool Start(int port)
@@ -65,7 +67,7 @@ namespace Network.Protocol
 
         public override void Request(string address, int id, IValue value)
         {
-        //    Send(address, new RequestMessage(id, value));
+            Send(address, new RequestMessage(id, value));
         }
 
         public override void Authorize(string address, int id, string name)
@@ -91,13 +93,13 @@ namespace Network.Protocol
 
         private void Response(string address, string response, int id, string text)
         {
-          //  var message = new ResponseMessage(id, new ResponseValue(response, text));
-           // Send(address, message);
+            var message = new ResponseMessage(id, new ResponseValue(response, text));
+            Send(address, message);
         }
 
         private void Send(string address, IMessage message)
         {
-            _transport.Send(address, MessagePackSerializer.Serialize(message));
+            _transport.Send(address, _serializer.Serialize(message));
         }
 
         private void OnTransportConnected(IUdpTransport transport, string address)
@@ -114,26 +116,26 @@ namespace Network.Protocol
         {
             if (bytes.Length <= _maxMessageSize)
             {
-                var message = MessagePackSerializer.Deserialize<IMessage>(bytes);
+                var message = _serializer.Deserialize<IMessage>(bytes);
 
-                //switch (message.TypeMessage)
-                //{
-                //    case "authorize":
-                //        ReceiveAuthorize(address, message);
-                //        break;
-                //    case "request":
-                //        ReceiveRequest(address, message);
-                //        break;
-                //    case "response":
-                //        ReceiveResponse(address, message);
-                //        break;
-                //    case "error":
-                //        ReceiveResponse(address, message);
-                //        break;
-                //    default:
-                //        Error(address, _invalidMessage);
-                //        break;
-                //}
+                switch (message.TypeMessage)
+                {
+                    case "authorize":
+                        ReceiveAuthorize(address, message);
+                        break;
+                    case "request":
+                        ReceiveRequest(address, message);
+                        break;
+                    case "response":
+                        ReceiveResponse(address, message);
+                        break;
+                    case "error":
+                        ReceiveError(address, message);
+                        break;
+                    default:
+                        Error(address, _invalidMessage);
+                        break;
+                }
             }
             else
             {
@@ -169,7 +171,7 @@ namespace Network.Protocol
 
             if (receiveMessage != null && receiveMessage.Id > -1)
             {
-               // CallRequestReceived(address, receiveMessage.Id, receiveMessage.MessageValue);
+                CallRequestReceived(address, receiveMessage.Id, receiveMessage.MessageValue);
             }
             else
             {

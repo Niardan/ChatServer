@@ -1,10 +1,12 @@
-﻿using MessagePack;
+﻿
+
+using System;
 
 namespace Network.Values
 {
-    //[MessagePackObject]
-    //public class Value : IValue
-    //{
+    [Serializable]
+    public class Value : IValue
+    {
 
-    //}
+    }
 }

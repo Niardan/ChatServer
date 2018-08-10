@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Callbacks\AuthorizedCallbacks.cs" />
+    <Compile Include="Callbacks\ChatMessageCallbacks.cs" />
     <Compile Include="ChatForm.cs">
       <SubType>Form</SubType>
     </Compile>

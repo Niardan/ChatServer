@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Network.Callbacks;
 using Network.Owner;
 using Network.Protocol;
@@ -17,7 +18,7 @@ namespace Network.Network
 
         private const long _timeout = 5000;
 
-        private readonly IDictionary<long, ICallbacks> _callbacks = new Dictionary<long, ICallbacks>();
+        private readonly IDictionary<long, Tuple<ICallbacks, RequestInfo>> _callbacks = new Dictionary<long, Tuple<ICallbacks, RequestInfo>>();
         private int _countRequest = 0;
 
         private readonly string _alreadyAuthorized = "alreadyAuthorized";
@@ -69,8 +70,9 @@ namespace Network.Network
         private void OnProtocolDisconnected(IUdpProtocol protocol, string address)
         {
             IOwner owner = _toOwner[address];
-            CallDisconnected(owner);
             _toOwner.Remove(address);
+            _toAutorized.Remove(address);
+            CallDisconnected(owner);
         }
 
         private void OnProtocolAuthorizeReceived(IUdpProtocol protocol, string address, int id, string name)
@@ -93,10 +95,6 @@ namespace Network.Network
             {
                 _toAutorized.Add(owner.Id);
             }
-            else
-            {
-                _protocol.Disconnect(owner.Id);
-            }
         }
 
         private void OnProtocolResponseReceived(IUdpProtocol protocol, string address, int id, IValue message)
@@ -104,13 +102,15 @@ namespace Network.Network
             var response = message as ResponseValue;
             if (response != null)
             {
+                var callback = _callbacks[id].Item1;
+                _sent.Remove(_callbacks[id].Item2);
                 if (response.Answer == "ack")
                 {
-                    _callbacks[id].Ack(response.Text);
+                    callback.Ack(response.Text);
                 }
                 else
                 {
-                    _callbacks[id].Fail(response.Text);
+                    callback.Fail(response.Text);
                 }
             }
             else
@@ -149,7 +149,7 @@ namespace Network.Network
                 }
 
                 _sent.Remove(node);
-                var callback = _callbacks[requestInfo.Id];
+                var callback = _callbacks[requestInfo.Id].Item1;
                 _callbacks.Remove(requestInfo.Id);
                 IOwner owner = requestInfo.Owner;
                 callback.Fail(_timeoutMessage);
@@ -161,10 +161,11 @@ namespace Network.Network
             if (_toAutorized.Contains(owner.Id))
             {
                 int id = _countRequest;
-                _countRequest++;
-                _sent.AddLast(new RequestInfo(owner, id, _now.Get));
-                _callbacks.Add(id, callbacks);
+                var requestInfo = new RequestInfo(owner, id, _now.Get);
+                _sent.AddLast(requestInfo);
+                _callbacks.Add(id, new Tuple<ICallbacks, RequestInfo>(callbacks, requestInfo));
                 _protocol.Request(owner.Id, id, value);
+                _countRequest++;
             }
         }
 
@@ -174,8 +175,9 @@ namespace Network.Network
             {
                 int id = _countRequest;
                 _countRequest++;
-                _sent.AddLast(new RequestInfo(owner, id, _now.Get));
-                _callbacks.Add(id, callbacks);
+                var requestInfo = new RequestInfo(owner, id, _now.Get);
+                _sent.AddLast(requestInfo);
+                _callbacks.Add(id, new Tuple<ICallbacks, RequestInfo>(callbacks, requestInfo));
                 _protocol.Authorize(owner.Id, id, name);
             }
         }
@@ -183,8 +185,6 @@ namespace Network.Network
         public override void Disconnect(IOwner owner)
         {
             string address = owner.Id;
-            _toOwner.Remove(address);
-            _toAutorized.Remove(address);
             _protocol.Disconnect(address);
         }
     }

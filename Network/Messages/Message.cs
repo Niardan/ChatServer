@@ -1,8 +1,8 @@
-﻿using MessagePack;
+﻿using System;
 
 namespace Network.Messages
 {
-    [MessagePackObject]
+    [Serializable]
     public class Message : IMessage
     {
         public Message(int id, string typeMessage)
@@ -10,9 +10,9 @@ namespace Network.Messages
             Id = id;
             TypeMessage = typeMessage;
         }
-        [Key(0)]
+    
         public int Id { get; set; }
-        [Key(1)]
+      
         public string TypeMessage { get; set; }
     }
 }

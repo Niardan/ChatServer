@@ -20,9 +20,9 @@ namespace ChatServer
         static void Main(string[] args)
         {
             var transport = new LiteNetLibServerTransport(100, "1");
-            var protocol = new TransportUdpProtocol(transport, 1000);
+            var protocol = new TransportUdpProtocol(transport, 1000, new BinarySerializer());
             var network = new MyNetwork(protocol, new RealNow());
-            _server = new ChatServer(network, 128);
+            _server = new ChatServer(network, 10);
             _timer = new Timer(100);
             _timer.Elapsed += OnTimerElapsed;
             network.Start(41200);

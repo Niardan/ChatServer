@@ -38,10 +38,10 @@
             this.tName = new System.Windows.Forms.TextBox();
             this.bAuthorization = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.tMessage = new System.Windows.Forms.TextBox();
+            this.bSendMessage = new System.Windows.Forms.Button();
             this.updateTimer = new System.Windows.Forms.Timer(this.components);
+            this.chatBox = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // bConnect
@@ -52,7 +52,7 @@
             this.bConnect.TabIndex = 0;
             this.bConnect.Text = "Подключится";
             this.bConnect.UseVisualStyleBackColor = true;
-            this.bConnect.Click += new System.EventHandler(this.bConnect_Click);
+            this.bConnect.Click += new System.EventHandler(this.BConnectOnClick);
             // 
             // tAddress
             // 
@@ -99,13 +99,16 @@
             // 
             // tName
             // 
+            this.tName.Enabled = false;
             this.tName.Location = new System.Drawing.Point(111, 73);
             this.tName.Name = "tName";
             this.tName.Size = new System.Drawing.Size(100, 20);
             this.tName.TabIndex = 6;
+            this.tName.Text = "Vel";
             // 
             // bAuthorization
             // 
+            this.bAuthorization.Enabled = false;
             this.bAuthorization.Location = new System.Drawing.Point(257, 70);
             this.bAuthorization.Name = "bAuthorization";
             this.bAuthorization.Size = new System.Drawing.Size(97, 23);
@@ -123,43 +126,46 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Сообщение";
             // 
-            // textBox4
+            // tMessage
             // 
-            this.textBox4.Location = new System.Drawing.Point(98, 143);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(349, 20);
-            this.textBox4.TabIndex = 9;
+            this.tMessage.Enabled = false;
+            this.tMessage.Location = new System.Drawing.Point(98, 143);
+            this.tMessage.Name = "tMessage";
+            this.tMessage.Size = new System.Drawing.Size(349, 20);
+            this.tMessage.TabIndex = 9;
             // 
-            // button3
+            // bSendMessage
             // 
-            this.button3.Location = new System.Drawing.Point(494, 141);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 10;
-            this.button3.Text = "Отправить";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(30, 195);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(563, 186);
-            this.listBox1.TabIndex = 11;
+            this.bSendMessage.Enabled = false;
+            this.bSendMessage.Location = new System.Drawing.Point(494, 141);
+            this.bSendMessage.Name = "bSendMessage";
+            this.bSendMessage.Size = new System.Drawing.Size(75, 23);
+            this.bSendMessage.TabIndex = 10;
+            this.bSendMessage.Text = "Отправить";
+            this.bSendMessage.UseVisualStyleBackColor = true;
+            this.bSendMessage.Click += new System.EventHandler(this.BSendMessageOnClick);
             // 
             // updateTimer
             // 
             this.updateTimer.Enabled = true;
             this.updateTimer.Tick += new System.EventHandler(this.UpdateTimerOnTick);
             // 
+            // chatBox
+            // 
+            this.chatBox.FormattingEnabled = true;
+            this.chatBox.Location = new System.Drawing.Point(12, 181);
+            this.chatBox.Name = "chatBox";
+            this.chatBox.Size = new System.Drawing.Size(541, 238);
+            this.chatBox.TabIndex = 11;
+            // 
             // ChatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(641, 450);
-            this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.chatBox);
+            this.Controls.Add(this.bSendMessage);
+            this.Controls.Add(this.tMessage);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.bAuthorization);
             this.Controls.Add(this.tName);
@@ -187,10 +193,10 @@
         private System.Windows.Forms.TextBox tName;
         private System.Windows.Forms.Button bAuthorization;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.TextBox tMessage;
+        private System.Windows.Forms.Button bSendMessage;
         private System.Windows.Forms.Timer updateTimer;
+        private System.Windows.Forms.ListBox chatBox;
     }
 }
 

@@ -1,16 +1,16 @@
-﻿using MessagePack;
+﻿using System;
 using Network.Values;
 
 namespace Network.Messages
 {
-    [MessagePackObject]
+    [Serializable]
     public class ResponseMessage : Message
     {
-        public ResponseMessage(int id, IValue answer) : base(id, "request")
+        public ResponseMessage(int id, IValue answer) : base(id, "response")
         {
             Answer = answer;
         }
-        [Key(2)]
+       
         public IValue Answer { get; set; }
     }
 }

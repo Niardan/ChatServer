@@ -33,9 +33,6 @@
     <Reference Include="LiteNetLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\LiteNetLib.0.7.7.2\lib\net35\LiteNetLib.dll</HintPath>
     </Reference>
-    <Reference Include="MessagePack, Version=1.7.3.4, Culture=neutral, PublicKeyToken=b4a0369545f0a1be, processorArchitecture=MSIL">
-      <HintPath>..\packages\MessagePack.1.7.3.4\lib\net45\MessagePack.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -76,9 +73,12 @@
     <Compile Include="Transport\LiteNetLibClientTransport.cs" />
     <Compile Include="Transport\LiteNetLibServerTransport.cs" />
     <Compile Include="Transport\UdpTransport.cs" />
+    <Compile Include="Utils\BinarySerializer.cs" />
     <Compile Include="Utils\INow.cs" />
+    <Compile Include="Utils\ISerialize.cs" />
     <Compile Include="Utils\Now.cs" />
     <Compile Include="Utils\RealNow.cs" />
+    <Compile Include="Utils\Serializer.cs" />
     <Compile Include="Values\ChatValue.cs" />
     <Compile Include="Values\IValue.cs" />
     <Compile Include="Values\ResponseValue.cs" />

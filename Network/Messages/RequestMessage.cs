@@ -1,17 +1,18 @@
-﻿using MessagePack;
+﻿
+using System;
 using Network.Values;
 
 namespace Network.Messages
 {
-    [MessagePackObject]
+    [Serializable]
     public class RequestMessage : Message
     {
-        public RequestMessage(int id) : base(id, "request")
+        public RequestMessage(int id, IValue messageValue) : base(id, "request")
         {
-           // MessageValue = messageValue;
+            MessageValue = messageValue;
         }
 
-        [Key(2)]
+     
         public IValue MessageValue { get; set; }
     }
 }

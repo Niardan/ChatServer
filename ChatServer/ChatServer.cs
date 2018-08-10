@@ -13,7 +13,8 @@ namespace ChatServer
         private readonly IDictionary<IOwner, string> _clients = new Dictionary<IOwner, string>();
         private readonly Queue<Tuple<IOwner, IValue, ICallbacks>> _request = new Queue<Tuple<IOwner, IValue, ICallbacks>>();
 
-        private readonly string _alreadyAutorized = "alreadyAutorized";
+        private readonly string _dublicateUsername = "dublicateUsername";
+        private readonly string _incorrectUsername = "incorrectUsername";
         private readonly string _unknownFormat = "unknownFormat";
         private readonly string _toBigChatMessage = "toBigChatMessage";
         private readonly string _ok = "ok";
@@ -77,14 +78,21 @@ namespace ChatServer
 
         private void OnAuthorizeReceived(IUdpNetwork network, IOwner owner, string name, ICallbacks callbacks)
         {
+            if (string.IsNullOrEmpty(name))
+            {
+                Console.WriteLine("Authorized failed");
+                callbacks.Fail(_incorrectUsername);
+                _network.Authorize(owner, false);
+                return;
+            }
             foreach (var item in _clients.Values)
             {
                 if (item == name)
                 {
                     Console.WriteLine("Authorized failed");
-                    callbacks.Fail(_alreadyAutorized);
+                    callbacks.Fail(_dublicateUsername);
                     _network.Authorize(owner, false);
-                    break;
+                    return;
                 }
             }
             Console.WriteLine("Authorized true");

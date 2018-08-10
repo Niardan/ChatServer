@@ -1,14 +1,26 @@
-﻿using MessagePack;
+﻿using System;
 
 namespace Network.Values
 {
-    [MessagePackObject]
+    [Serializable]
     public class ChatValue : IValue
     {
-        [Key(0)]
-        public string Name { set; get; }
+        private string _name;
+        private string _message;
+        public ChatValue(string name, string message)
+        {
+            _name = name;
+            _message = message;
+        }
 
-        [Key(1)]
-        public string Message { set; get; }
+        public string Name
+        {
+            get { return _name; }
+        }
+
+        public string Message
+        {
+            get { return _message; }
+        }
     }
 }
