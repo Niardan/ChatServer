@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A637B4D3-49C8-478B-B351-E5CE9A567EC0}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>ChatServer</RootNamespace>
-    <AssemblyName>ChatServer</AssemblyName>
+    <ProjectGuid>{E592B61D-1D62-44C8-AC0E-D0DBDA1215AB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Network</RootNamespace>
+    <AssemblyName>Network</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -54,19 +52,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChatServer.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Callbacks\Callbacks.cs" />
+    <Compile Include="Callbacks\ChatMessageCallbacks.cs" />
+    <Compile Include="Callbacks\ICallbacks.cs" />
+    <Compile Include="Callbacks\NoCallbacks.cs" />
+    <Compile Include="Callbacks\UdpNetworkRequestCallback.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Messages\AuthorizeMessage.cs" />
+    <Compile Include="Messages\ErrorMessage.cs" />
+    <Compile Include="Messages\IMessage.cs" />
+    <Compile Include="Messages\Message.cs" />
+    <Compile Include="Messages\RequestMessage.cs" />
+    <Compile Include="Messages\ResponseMessage.cs" />
+    <Compile Include="Network\IUdpNetwork.cs" />
+    <Compile Include="Network\MyNetwork.cs" />
+    <Compile Include="Network\UdpNetwork.cs" />
+    <Compile Include="Owner\IOwner.cs" />
+    <Compile Include="Owner\Owner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Protocol\IUdpProtocol.cs" />
+    <Compile Include="Protocol\TransportUdpProtocol.cs" />
+    <Compile Include="Protocol\UdpProtocol.cs" />
+    <Compile Include="Transport\IUdpTransport.cs" />
+    <Compile Include="Transport\LiteNetLibTransport.cs" />
+    <Compile Include="Transport\UdpTransport.cs" />
+    <Compile Include="Utils\INow.cs" />
+    <Compile Include="Utils\Now.cs" />
+    <Compile Include="Utils\RealNow.cs" />
+    <Compile Include="Values\ChatValue.cs" />
+    <Compile Include="Values\IValue.cs" />
+    <Compile Include="Values\ResponseValue.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Network\Network.csproj">
-      <Project>{e592b61d-1d62-44c8-ac0e-d0dbda1215ab}</Project>
-      <Name>Network</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,29 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ChatServer.Messages;
+using System.Timers;
 using MessagePack;
+using Network.Network;
+using Network.Protocol;
+using Network.Transport;
 
 namespace ChatServer
 {
     class Program
     {
+        private static Timer _timer;
+        private static ChatServer _server;
+
         static void Main(string[] args)
         {
-            //IMessage message = new RequestMessage("5", "test", "recive");
+            var transport = new LiteNetLibTransport(100, "1");
+            var protocol = new TransportUdpProtocol(transport, 1000);
+            var network = new MyNetwork(protocol);
+            _server = new ChatServer(network, 128);
+            _timer = new Timer(100);
+            _timer.Elapsed += OnTimerElapsed;
+            Console.ReadKey();
+        }
 
-           // message.TypeMessage = TypeMessage.Receive;
-          
-           // var bytes = MessagePackSerializer.Serialize(message);
-            //var rezutMessage = MessagePackSerializer.Deserialize<IMessage>(bytes);
-            //switch (rezutMessage)
-            //{
-            //    case RequestMessage test:
-            //        break;
-
-            //}
-            //var Testmessage = (RequestMessage) rezutMessage;
-         //   Console.WriteLine(rezutMessage.Id);
+        private static void OnTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            _server.Udpate();
         }
     }
 }
