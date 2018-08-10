@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.bConnect = new System.Windows.Forms.Button();
             this.tAddress = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -40,6 +41,7 @@
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.updateTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // bConnect
@@ -50,6 +52,7 @@
             this.bConnect.TabIndex = 0;
             this.bConnect.Text = "Подключится";
             this.bConnect.UseVisualStyleBackColor = true;
+            this.bConnect.Click += new System.EventHandler(this.bConnect_Click);
             // 
             // tAddress
             // 
@@ -57,6 +60,7 @@
             this.tAddress.Name = "tAddress";
             this.tAddress.Size = new System.Drawing.Size(100, 20);
             this.tAddress.TabIndex = 1;
+            this.tAddress.Text = "127.0.0.1";
             // 
             // label1
             // 
@@ -82,6 +86,7 @@
             this.tPort.Name = "tPort";
             this.tPort.Size = new System.Drawing.Size(100, 20);
             this.tPort.TabIndex = 4;
+            this.tPort.Text = "41200";
             // 
             // label3
             // 
@@ -107,6 +112,7 @@
             this.bAuthorization.TabIndex = 7;
             this.bAuthorization.Text = "Авторизация";
             this.bAuthorization.UseVisualStyleBackColor = true;
+            this.bAuthorization.Click += new System.EventHandler(this.bAuthorization_Click);
             // 
             // label4
             // 
@@ -140,6 +146,11 @@
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(563, 186);
             this.listBox1.TabIndex = 11;
+            // 
+            // updateTimer
+            // 
+            this.updateTimer.Enabled = true;
+            this.updateTimer.Tick += new System.EventHandler(this.UpdateTimerOnTick);
             // 
             // ChatForm
             // 
@@ -179,6 +190,7 @@
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Timer updateTimer;
     }
 }
 

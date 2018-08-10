@@ -4,7 +4,7 @@ using LiteNetLib.Utils;
 
 namespace Network.Transport
 {
-    public class LiteNetLibTransport : UdpTransport
+    public class LiteNetLibServerTransport : UdpTransport
     {
         private readonly EventBasedNetListener _listener = new EventBasedNetListener();
         private readonly NetManager _netManager;
@@ -12,7 +12,7 @@ namespace Network.Transport
         private readonly IDictionary<string, NetPeer> _toPeer = new Dictionary<string, NetPeer>();
         private readonly IDictionary<NetPeer, string> _toAddress = new Dictionary<NetPeer, string>();
 
-        public LiteNetLibTransport(int maxConnections, string connectKey)
+        public LiteNetLibServerTransport(int maxConnections, string connectKey)
         {
             _netManager = new NetManager(_listener, maxConnections, connectKey);
         }

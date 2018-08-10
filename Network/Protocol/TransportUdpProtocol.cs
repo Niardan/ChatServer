@@ -9,10 +9,10 @@ namespace Network.Protocol
     {
         private readonly IUdpTransport _transport;
         private readonly int _maxMessageSize;
-        
+
         private const string _ack = "ack";
         private const string _fail = "fail";
-        
+
         private const string _tooBigMessage = "toBigMessage";
         private const string _invalidMessage = "invalidMessage";
         private const string _invalidAuthorize = "invalidAuthorize";
@@ -63,17 +63,22 @@ namespace Network.Protocol
             _transport.Disconnect(address);
         }
 
-        public override void Request(string address, long id, IValue value)
+        public override void Request(string address, int id, IValue value)
         {
-            Send(address, new RequestMessage(id, value));
+        //    Send(address, new RequestMessage(id, value));
         }
 
-        public override void Ack(string address, long id, string text)
+        public override void Authorize(string address, int id, string name)
+        {
+            Send(address, new AuthorizeMessage(id, name));
+        }
+
+        public override void Ack(string address, int id, string text)
         {
             Response(address, _ack, id, text);
         }
 
-        public override void Fail(string address, long id, string text)
+        public override void Fail(string address, int id, string text)
         {
             Response(address, _fail, id, text);
         }
@@ -84,10 +89,10 @@ namespace Network.Protocol
             Send(address, message);
         }
 
-        private void Response(string address, string response, long id, string text)
+        private void Response(string address, string response, int id, string text)
         {
-            var message = new ResponseMessage(id, new ResponseValue(response, text));
-            Send(address, message);
+          //  var message = new ResponseMessage(id, new ResponseValue(response, text));
+           // Send(address, message);
         }
 
         private void Send(string address, IMessage message)
@@ -111,25 +116,37 @@ namespace Network.Protocol
             {
                 var message = MessagePackSerializer.Deserialize<IMessage>(bytes);
 
-                switch (message.TypeMessage)
-                {
-                    case "authorize":
-                        ReceiveAuthorize(address, message);
-                        break;
-                    case "request":
-                        ReceiveRequest(address, message);
-                        break;
-                    case "response":
-                        ReceiveResponse(address, message);
-                        break;
-                    default:
-                        Error(address, _invalidMessage);
-                        break;
-                }
+                //switch (message.TypeMessage)
+                //{
+                //    case "authorize":
+                //        ReceiveAuthorize(address, message);
+                //        break;
+                //    case "request":
+                //        ReceiveRequest(address, message);
+                //        break;
+                //    case "response":
+                //        ReceiveResponse(address, message);
+                //        break;
+                //    case "error":
+                //        ReceiveResponse(address, message);
+                //        break;
+                //    default:
+                //        Error(address, _invalidMessage);
+                //        break;
+                //}
             }
             else
             {
                 Error(address, _tooBigMessage);
+            }
+        }
+
+        private void ReceiveError(string address, IMessage message)
+        {
+            var errorMessage = message as ErrorMessage;
+            if (errorMessage != null)
+            {
+                CallErrorReceived(address, errorMessage.Error);
             }
         }
 
@@ -152,7 +169,7 @@ namespace Network.Protocol
 
             if (receiveMessage != null && receiveMessage.Id > -1)
             {
-                CallRequestReceived(address, receiveMessage.Id, receiveMessage.Value);
+               // CallRequestReceived(address, receiveMessage.Id, receiveMessage.MessageValue);
             }
             else
             {

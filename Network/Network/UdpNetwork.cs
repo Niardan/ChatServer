@@ -5,8 +5,8 @@ using Network.Values;
 namespace Network.Network
 {
     public abstract class UdpNetwork : IUdpNetwork
-
     {
+        public event NetworkConnectedHandler Connected;
         public event NetworkDisconnectedHandler Disconnected;
         public event NetworkAuthorizeReceivedHandler AuthorizeReceived;
         public event NetworkRequestReceivedHandler RequestReceived;
@@ -15,6 +15,8 @@ namespace Network.Network
         public abstract void Stop();
         public abstract void Update();
         public abstract void Request(IOwner owner, IValue value, ICallbacks callbacks);
+        public abstract void Authorize(IOwner owner, string name, ICallbacks callbacks);
+
         public abstract void Disconnect(IOwner owner);
 
         protected void CallDisconnected(IOwner owner)
@@ -22,6 +24,14 @@ namespace Network.Network
             if (Disconnected != null)
             {
                 Disconnected(this, owner);
+            }
+        }
+
+        protected void CallConnected(IOwner owner)
+        {
+            if (Connected != null)
+            {
+                Connected(this, owner);
             }
         }
 

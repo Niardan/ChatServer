@@ -6,7 +6,7 @@ namespace Network.Messages
     [MessagePackObject]
     public class ResponseMessage : Message
     {
-        public ResponseMessage(long id,  IValue answer) : base(id, "request")
+        public ResponseMessage(int id, IValue answer) : base(id, "request")
         {
             Answer = answer;
         }

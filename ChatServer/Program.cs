@@ -8,6 +8,7 @@ using MessagePack;
 using Network.Network;
 using Network.Protocol;
 using Network.Transport;
+using Network.Utils;
 
 namespace ChatServer
 {
@@ -18,12 +19,15 @@ namespace ChatServer
 
         static void Main(string[] args)
         {
-            var transport = new LiteNetLibTransport(100, "1");
+            var transport = new LiteNetLibServerTransport(100, "1");
             var protocol = new TransportUdpProtocol(transport, 1000);
-            var network = new MyNetwork(protocol);
+            var network = new MyNetwork(protocol, new RealNow());
             _server = new ChatServer(network, 128);
             _timer = new Timer(100);
             _timer.Elapsed += OnTimerElapsed;
+            network.Start(41200);
+            _timer.Start();
+
             Console.ReadKey();
         }
 

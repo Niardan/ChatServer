@@ -9,6 +9,7 @@ namespace Network.Protocol
         public event ProtocolAuthorizeReceived AuthorizeReceived;
         public event ProtocolRequestReceived RequestReceived;
         public event ProtocolResponseReceived ResponseReceived;
+        public event ProtocolErrorHandler ErrorReceived;
 
         public abstract bool Start(int port);
         public abstract void Stop();
@@ -18,9 +19,10 @@ namespace Network.Protocol
         public abstract void Connect(string host, int port);
         public abstract void Disconnect(string address);
         
-        public abstract void Request(string address, long id, IValue value);
-        public abstract void Ack(string address, long id, string text);
-        public abstract void Fail(string address, long id, string text);
+        public abstract void Request(string address, int id, IValue value);
+        public abstract void Authorize(string address, int id, string name);
+        public abstract void Ack(string address, int id, string text);
+        public abstract void Fail(string address, int id, string text);
         public abstract void Error(string address, string value);
 
         protected void CallConnected(string address)
@@ -39,7 +41,7 @@ namespace Network.Protocol
             }
         }
 
-        protected void CallAuthorizeReceived(string address, long id, string name)
+        protected void CallAuthorizeReceived(string address, int id, string name)
         {
             if (AuthorizeReceived != null)
             {
@@ -47,7 +49,7 @@ namespace Network.Protocol
             }
         }
 
-        protected void CallRequestReceived(string address, long id, IValue value)
+        protected void CallRequestReceived(string address, int id, IValue value)
         {
             if (RequestReceived != null)
             {
@@ -55,11 +57,18 @@ namespace Network.Protocol
             }
         }
 
-        protected void CallResponseReceived(string address, long id, IValue value)
+        protected void CallResponseReceived(string address, int id, IValue value)
         {
             if (ResponseReceived != null)
             {
                 ResponseReceived(this, address, id, value);
+            }
+        }
+        protected void CallErrorReceived(string address, string errorCode)
+        {
+            if (ResponseReceived != null)
+            {
+                ErrorReceived(this, address, errorCode);
             }
         }
     }

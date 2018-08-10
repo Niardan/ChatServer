@@ -2,6 +2,7 @@
 
 namespace Network.Messages
 {
+    [MessagePackObject]
     public class AuthorizeMessage : Message
     {
         public AuthorizeMessage(int id, string name) : base(id, "authorize")

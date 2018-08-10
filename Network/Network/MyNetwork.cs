@@ -18,7 +18,7 @@ namespace Network.Network
         private const long _timeout = 5000;
 
         private readonly IDictionary<long, ICallbacks> _callbacks = new Dictionary<long, ICallbacks>();
-        private long _countRequest = 0;
+        private int _countRequest = 0;
 
         private readonly string _alreadyAuthorized = "alreadyAuthorized";
         private readonly string _notAuthorized = "notAuthorized";
@@ -26,9 +26,10 @@ namespace Network.Network
         private readonly string _alreadyResponse = "alreadyResponse";
         private readonly LinkedList<RequestInfo> _sent = new LinkedList<RequestInfo>();
 
-        public MyNetwork(IUdpProtocol protocol)
+        public MyNetwork(IUdpProtocol protocol, INow now)
         {
             _protocol = protocol;
+            _now = now;
         }
 
         public override bool Start(int port)
@@ -38,7 +39,7 @@ namespace Network.Network
                 _protocol.Connected += OnProtocolConnected;
                 _protocol.Disconnectd += OnProtocolDisconnected;
                 _protocol.AuthorizeReceived += OnProtocolAuthorizeReceived;
-                _protocol.RequestReceived += OnProtocolRequestReceived;
+                _protocol.RequestReceived += (protocol, address, id, message) => OnProtocolRequestReceived(protocol, address, id, message);
                 _protocol.ResponseReceived += OnProtocolResponseReceived;
 
                 return true;
@@ -51,8 +52,8 @@ namespace Network.Network
         {
             _protocol.Connected -= OnProtocolConnected;
             _protocol.Disconnectd -= OnProtocolDisconnected;
-            _protocol.AuthorizeReceived -= OnProtocolAuthorizeReceived;
-            _protocol.RequestReceived -= OnProtocolRequestReceived;
+            _protocol.AuthorizeReceived -= (protocol, address, id, name) => OnProtocolAuthorizeReceived(protocol, address, id, name);
+            _protocol.RequestReceived -= (protocol, address, id, message) => OnProtocolRequestReceived(protocol, address, id, message);
             _protocol.ResponseReceived -= OnProtocolResponseReceived;
 
             _protocol.Stop();
@@ -62,6 +63,7 @@ namespace Network.Network
         {
             IOwner owner = new Owner.Owner(address);
             _toOwner.Add(address, owner);
+            CallConnected(owner);
         }
 
         private void OnProtocolDisconnected(IUdpProtocol protocol, string address)
@@ -71,7 +73,7 @@ namespace Network.Network
             _toOwner.Remove(address);
         }
 
-        private void OnProtocolAuthorizeReceived(IUdpProtocol protocol, string address, long id, string name)
+        private void OnProtocolAuthorizeReceived(IUdpProtocol protocol, string address, int id, string name)
         {
             if (!_authorizing.Contains(address) || !_toAutorized.Contains(address))
             {
@@ -97,7 +99,7 @@ namespace Network.Network
             }
         }
 
-        private void OnProtocolResponseReceived(IUdpProtocol protocol, string address, long id, IValue message)
+        private void OnProtocolResponseReceived(IUdpProtocol protocol, string address, int id, IValue message)
         {
             var response = message as ResponseValue;
             if (response != null)
@@ -117,7 +119,7 @@ namespace Network.Network
             }
         }
 
-        private void OnProtocolRequestReceived(IUdpProtocol protocol, string address, long id, IValue message)
+        private void OnProtocolRequestReceived(IUdpProtocol protocol, string address, int id, IValue message)
         {
             if (_toAutorized.Contains(address))
             {
@@ -158,11 +160,23 @@ namespace Network.Network
         {
             if (_toAutorized.Contains(owner.Id))
             {
-                long id = _countRequest;
+                int id = _countRequest;
                 _countRequest++;
                 _sent.AddLast(new RequestInfo(owner, id, _now.Get));
                 _callbacks.Add(id, callbacks);
                 _protocol.Request(owner.Id, id, value);
+            }
+        }
+
+        public override void Authorize(IOwner owner, string name, ICallbacks callbacks)
+        {
+            if (!_toAutorized.Contains(owner.Id))
+            {
+                int id = _countRequest;
+                _countRequest++;
+                _sent.AddLast(new RequestInfo(owner, id, _now.Get));
+                _callbacks.Add(id, callbacks);
+                _protocol.Authorize(owner.Id, id, name);
             }
         }
 
@@ -178,10 +192,10 @@ namespace Network.Network
     public class RequestInfo
     {
         private readonly IOwner _owner;
-        private readonly long _id;
+        private readonly int _id;
         private readonly double _time;
 
-        public RequestInfo(IOwner owner, long id, double time)
+        public RequestInfo(IOwner owner, int id, double time)
         {
             _owner = owner;
             _id = id;
@@ -193,7 +207,7 @@ namespace Network.Network
             get { return _owner; }
         }
 
-        public long Id
+        public int Id
         {
             get { return _id; }
         }

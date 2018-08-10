@@ -26,6 +26,7 @@ namespace ChatServer
             _network.AuthorizeReceived += OnAuthorizeReceived;
             _network.Disconnected += OnDisconnected;
             _network.RequestReceived += OnRequestReceived;
+            Console.WriteLine("ChatServer Run");
         }
 
         public void Udpate()
@@ -64,11 +65,13 @@ namespace ChatServer
 
         private void OnRequestReceived(IUdpNetwork network, IOwner owner, IValue request, ICallbacks callbacks)
         {
+            Console.WriteLine("RequestReceived");
             _request.Enqueue(new Tuple<IOwner, IValue, ICallbacks>(owner, request, callbacks));
         }
 
         private void OnDisconnected(IUdpNetwork network, IOwner owner)
         {
+            Console.WriteLine("Disconneted");
             _clients.Remove(owner);
         }
 
@@ -78,14 +81,17 @@ namespace ChatServer
             {
                 if (item == name)
                 {
+                    Console.WriteLine("Authorized failed");
                     callbacks.Fail(_alreadyAutorized);
                     _network.Authorize(owner, false);
                     break;
                 }
             }
+            Console.WriteLine("Authorized true");
             callbacks.Ack(_ok);
             _network.Authorize(owner, true);
             _clients.Add(owner, name);
+
         }
     }
 }

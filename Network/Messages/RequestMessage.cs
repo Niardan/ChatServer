@@ -6,12 +6,12 @@ namespace Network.Messages
     [MessagePackObject]
     public class RequestMessage : Message
     {
-        public RequestMessage(long id, IValue value) : base(id, "request")
+        public RequestMessage(int id) : base(id, "request")
         {
-            Value = value;
+           // MessageValue = messageValue;
         }
 
         [Key(2)]
-        public IValue Value { get; set; }
+        public IValue MessageValue { get; set; }
     }
 }

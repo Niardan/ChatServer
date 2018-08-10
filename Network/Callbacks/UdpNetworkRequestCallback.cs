@@ -6,9 +6,9 @@ namespace Network.Callbacks
     {
         private readonly IUdpProtocol _protocol;
         private readonly string _address;
-        private readonly long _id;
+        private readonly int _id;
 
-        public UdpNetworkRequestCallback(IUdpProtocol protocol, string peer, long id)
+        public UdpNetworkRequestCallback(IUdpProtocol protocol, string peer, int id)
         {
             _protocol = protocol;
             _address = peer;
