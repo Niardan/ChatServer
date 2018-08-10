@@ -42,13 +42,17 @@
             this.bSendMessage = new System.Windows.Forms.Button();
             this.updateTimer = new System.Windows.Forms.Timer(this.components);
             this.chatBox = new System.Windows.Forms.ListBox();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
             // bConnect
             // 
-            this.bConnect.Location = new System.Drawing.Point(461, 27);
+            this.bConnect.Location = new System.Drawing.Point(254, 14);
             this.bConnect.Name = "bConnect";
-            this.bConnect.Size = new System.Drawing.Size(92, 23);
+            this.bConnect.Size = new System.Drawing.Size(97, 23);
             this.bConnect.TabIndex = 0;
             this.bConnect.Text = "Подключится";
             this.bConnect.UseVisualStyleBackColor = true;
@@ -56,7 +60,7 @@
             // 
             // tAddress
             // 
-            this.tAddress.Location = new System.Drawing.Point(111, 29);
+            this.tAddress.Location = new System.Drawing.Point(45, 16);
             this.tAddress.Name = "tAddress";
             this.tAddress.Size = new System.Drawing.Size(100, 20);
             this.tAddress.TabIndex = 1;
@@ -65,7 +69,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 32);
+            this.label1.Location = new System.Drawing.Point(9, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(17, 13);
             this.label1.TabIndex = 2;
@@ -74,7 +78,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(254, 32);
+            this.label2.Location = new System.Drawing.Point(148, 19);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(32, 13);
             this.label2.TabIndex = 3;
@@ -82,16 +86,16 @@
             // 
             // tPort
             // 
-            this.tPort.Location = new System.Drawing.Point(320, 28);
+            this.tPort.Location = new System.Drawing.Point(186, 16);
             this.tPort.Name = "tPort";
-            this.tPort.Size = new System.Drawing.Size(100, 20);
+            this.tPort.Size = new System.Drawing.Size(62, 20);
             this.tPort.TabIndex = 4;
             this.tPort.Text = "41200";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(27, 80);
+            this.label3.Location = new System.Drawing.Point(9, 68);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(29, 13);
             this.label3.TabIndex = 5;
@@ -100,16 +104,16 @@
             // tName
             // 
             this.tName.Enabled = false;
-            this.tName.Location = new System.Drawing.Point(111, 73);
+            this.tName.Location = new System.Drawing.Point(45, 65);
             this.tName.Name = "tName";
-            this.tName.Size = new System.Drawing.Size(100, 20);
+            this.tName.Size = new System.Drawing.Size(203, 20);
             this.tName.TabIndex = 6;
             this.tName.Text = "Vel";
             // 
             // bAuthorization
             // 
             this.bAuthorization.Enabled = false;
-            this.bAuthorization.Location = new System.Drawing.Point(257, 70);
+            this.bAuthorization.Location = new System.Drawing.Point(254, 62);
             this.bAuthorization.Name = "bAuthorization";
             this.bAuthorization.Size = new System.Drawing.Size(97, 23);
             this.bAuthorization.TabIndex = 7;
@@ -120,24 +124,24 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(27, 144);
+            this.label4.Location = new System.Drawing.Point(9, 138);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 13);
+            this.label4.Size = new System.Drawing.Size(68, 13);
             this.label4.TabIndex = 8;
-            this.label4.Text = "Сообщение";
+            this.label4.Text = "Сообщение:";
             // 
             // tMessage
             // 
             this.tMessage.Enabled = false;
-            this.tMessage.Location = new System.Drawing.Point(98, 143);
+            this.tMessage.Location = new System.Drawing.Point(80, 135);
             this.tMessage.Name = "tMessage";
-            this.tMessage.Size = new System.Drawing.Size(349, 20);
+            this.tMessage.Size = new System.Drawing.Size(392, 20);
             this.tMessage.TabIndex = 9;
             // 
             // bSendMessage
             // 
             this.bSendMessage.Enabled = false;
-            this.bSendMessage.Location = new System.Drawing.Point(494, 141);
+            this.bSendMessage.Location = new System.Drawing.Point(478, 133);
             this.bSendMessage.Name = "bSendMessage";
             this.bSendMessage.Size = new System.Drawing.Size(75, 23);
             this.bSendMessage.TabIndex = 10;
@@ -152,17 +156,46 @@
             // 
             // chatBox
             // 
-            this.chatBox.FormattingEnabled = true;
-            this.chatBox.Location = new System.Drawing.Point(12, 181);
+            this.chatBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chatBox.Location = new System.Drawing.Point(12, 168);
             this.chatBox.Name = "chatBox";
-            this.chatBox.Size = new System.Drawing.Size(541, 238);
+            this.chatBox.Size = new System.Drawing.Size(541, 251);
             this.chatBox.TabIndex = 11;
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label5.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label5.Location = new System.Drawing.Point(0, 49);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(565, 2);
+            this.label5.TabIndex = 12;
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label6.Location = new System.Drawing.Point(0, 100);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(565, 2);
+            this.label6.TabIndex = 13;
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // ChatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(641, 450);
+            this.ClientSize = new System.Drawing.Size(564, 432);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.chatBox);
             this.Controls.Add(this.bSendMessage);
             this.Controls.Add(this.tMessage);
@@ -177,6 +210,8 @@
             this.Controls.Add(this.bConnect);
             this.Name = "ChatForm";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.ChatForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -197,6 +232,9 @@
         private System.Windows.Forms.Button bSendMessage;
         private System.Windows.Forms.Timer updateTimer;
         private System.Windows.Forms.ListBox chatBox;
+        private System.Windows.Forms.BindingSource bindingSource1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }
 

@@ -119,5 +119,15 @@ namespace ChatClient
             bAuthorization.Enabled = true;
             chatBox.Items.Add("Authorized Fail, Reason: " + reason);
         }
+
+        private void ChatForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

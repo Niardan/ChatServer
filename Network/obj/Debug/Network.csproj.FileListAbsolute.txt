@@ -11,3 +11,16 @@ C:\Working\ChatServer\Network\obj\Debug\Network.csproj.CopyComplete
 C:\Working\ChatServer\Network\obj\Debug\Network.dll
 C:\Working\ChatServer\Network\obj\Debug\Network.pdb
 C:\Working\ChatServer\Network\obj\Debug\Network.csprojAssemblyReference.cache
+C:\Users\kotow\source\repos\ChatServer\Network\bin\Debug\Network.dll
+C:\Users\kotow\source\repos\ChatServer\Network\bin\Debug\Network.pdb
+C:\Users\kotow\source\repos\ChatServer\Network\bin\Debug\LiteNetLib.dll
+C:\Users\kotow\source\repos\ChatServer\Network\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\kotow\source\repos\ChatServer\Network\bin\Debug\System.ValueTuple.dll
+C:\Users\kotow\source\repos\ChatServer\Network\bin\Debug\LiteNetLib.pdb
+C:\Users\kotow\source\repos\ChatServer\Network\bin\Debug\LiteNetLib.xml
+C:\Users\kotow\source\repos\ChatServer\Network\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\kotow\source\repos\ChatServer\Network\obj\Debug\Network.csprojAssemblyReference.cache
+C:\Users\kotow\source\repos\ChatServer\Network\obj\Debug\Network.csproj.CoreCompileInputs.cache
+C:\Users\kotow\source\repos\ChatServer\Network\obj\Debug\Network.csproj.CopyComplete
+C:\Users\kotow\source\repos\ChatServer\Network\obj\Debug\Network.dll
+C:\Users\kotow\source\repos\ChatServer\Network\obj\Debug\Network.pdb
