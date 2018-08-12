@@ -11,8 +11,7 @@ namespace Network.Messages
         {
             MessageValue = messageValue;
         }
-
-     
+        
         public IValue MessageValue { get; set; }
     }
 }

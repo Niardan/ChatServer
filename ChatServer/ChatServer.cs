@@ -99,7 +99,6 @@ namespace ChatServer
             callbacks.Ack(_ok);
             _network.Authorize(owner, true);
             _clients.Add(owner, name);
-
         }
     }
 }

@@ -132,7 +132,6 @@
             // 
             // tMessage
             // 
-            this.tMessage.Enabled = false;
             this.tMessage.Location = new System.Drawing.Point(80, 135);
             this.tMessage.Name = "tMessage";
             this.tMessage.Size = new System.Drawing.Size(392, 20);
@@ -140,7 +139,6 @@
             // 
             // bSendMessage
             // 
-            this.bSendMessage.Enabled = false;
             this.bSendMessage.Location = new System.Drawing.Point(478, 133);
             this.bSendMessage.Name = "bSendMessage";
             this.bSendMessage.Size = new System.Drawing.Size(75, 23);
@@ -187,7 +185,6 @@
             this.label6.Size = new System.Drawing.Size(565, 2);
             this.label6.TabIndex = 13;
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // ChatForm
             // 
@@ -210,7 +207,6 @@
             this.Controls.Add(this.bConnect);
             this.Name = "ChatForm";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.ChatForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
