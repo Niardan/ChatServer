@@ -30,3 +30,5 @@ C:\Users\kotow\source\repos\ChatServer\ChatClient\obj\Debug\ChatClient.csproj.Co
 C:\Users\kotow\source\repos\ChatServer\ChatClient\obj\Debug\ChatClient.csproj.CopyComplete
 C:\Users\kotow\source\repos\ChatServer\ChatClient\obj\Debug\ChatClient.exe
 C:\Users\kotow\source\repos\ChatServer\ChatClient\obj\Debug\ChatClient.pdb
+C:\Users\kotow\source\repos\ChatServer\ChatClient\bin\Debug\Newtonsoft.Json.dll
+C:\Users\kotow\source\repos\ChatServer\ChatClient\bin\Debug\Newtonsoft.Json.xml

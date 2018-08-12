@@ -21,103 +21,101 @@ namespace ChatClient
 {
     public partial class ChatForm : Form
     {
-        private readonly MyNetwork _network;
-        private readonly IUdpTransport _transport;
+        private readonly ChatClient _chatClient;
         private IOwner _owner;
         private bool _isConnect;
+
+        private ClientStage _currentStage;
 
         public ChatForm()
         {
             InitializeComponent();
-            _transport = new LiteNetLibClientTransport(1, "1");
-            var protocol = new TransportUdpProtocol(_transport, 1000, new BinarySerializer());
-            _network = new MyNetwork(protocol, new RealNow());
-            _network.RequestReceived += NetworkOnRequestReceived;
-            _network.Disconnected += NetworkOnDisconnected;
-            _network.Connected += NetworkOnConnected;
-            _network.Start(0);
+
+            var transport = new LiteNetLibClientTransport(1, "1");
+            var protocol = new TransportUdpProtocol(transport, 1000, new BinarySerializer());
+            var network = new MyNetwork(protocol, new RealNow());
+            _chatClient = new ChatClient(transport, network);
+            _chatClient.Message += ChatClientOnMessage;
+            _chatClient.ChangeStage += ChatClientOnChangeStage;
+            _currentStage = ClientStage.Disconnected;
         }
 
-        private void NetworkOnConnected(IUdpNetwork network, IOwner owner)
+        private void ChatClientOnChangeStage(ClientStage stage)
         {
-            _owner = owner;
-            bAuthorization.Enabled = true;
-            tName.Enabled = true;
-            chatBox.Items.Add("Connected");
+            _currentStage = stage;
+            switch (stage)
+            {
+                case ClientStage.Disconnecting:
+                    tMessage.Enabled = false;
+                    tName.Enabled = false;
+                    bAuthorization.Enabled = false;
+                    bSendMessage.Enabled = false;
+                    break;
+
+                case ClientStage.Disconnected:
+                    tAddress.Enabled = true;
+                    tPort.Enabled = true;
+                    bConnect.Text = "Connect";
+                    bConnect.Enabled = true;
+                    break;
+
+                case ClientStage.Connecting:
+                    tAddress.Enabled = false;
+                    tPort.Enabled = false;
+                    bConnect.Enabled = false;
+                    break;
+
+                case ClientStage.Connected:
+                    tName.Enabled = true;
+                    bAuthorization.Enabled = true;
+                    bConnect.Text = "Diconnect";
+                    bConnect.Enabled = true;
+                    break;
+
+                case ClientStage.Authorizing:
+                    tName.Enabled = false;
+                    bAuthorization.Enabled = false;
+                    break;
+
+                case ClientStage.Autorized:
+                    tMessage.Enabled = true;
+                    bSendMessage.Enabled = true;
+                    break;
+            }
         }
 
-        private void NetworkOnDisconnected(IUdpNetwork network, IOwner owner)
+        private void ChatClientOnMessage(string text, bool system)
         {
-            bAuthorization.Enabled = false;
-            bSendMessage.Enabled = false;
-            tAddress.Enabled = true;
-            tPort.Enabled = true;
-            chatBox.Items.Add("Disconnected");
+            chatBox.Items.Add(text);
         }
 
-        private void NetworkOnRequestReceived(IUdpNetwork network, Network.Owner.IOwner owner, Network.Values.IValue request, Network.Callbacks.ICallbacks callbacks)
-        {
-            var value = (ChatValue) request;
-            string message = value.Name + ": " + value.Message;
-            chatBox.Items.Add(message);
-        }
 
         private void BConnectOnClick(object sender, EventArgs e)
         {
-            if (!_isConnect)
+            if (_currentStage == ClientStage.Disconnected)
             {
-                _transport.Connect(tAddress.Text, Convert.ToInt32(tPort.Text));
-                tAddress.Enabled = false;
-                tPort.Enabled = false;
-                bConnect.Text = "Disconnect";
+                _chatClient.Connect(tAddress.Text, Convert.ToInt32(tPort.Text));
             }
             else
             {
-                _network.Disconnect(_owner);
-                bConnect.Text = "Connect";
+                _chatClient.Disconnect();
             }
-
-            _isConnect = !_isConnect;
         }
 
         private void UpdateTimerOnTick(object sender, EventArgs e)
         {
-            _network.Update();
+            _chatClient.Update();
         }
 
         private void bAuthorization_Click(object sender, EventArgs e)
         {
-            bAuthorization.Enabled = false;
-            tName.Enabled = false;
-            _network.Authorize(_owner, tName.Text, new AuthorizedCallbacks(_network, _owner, AuthorizedSuccess, AuthorizedFail));
+           _chatClient.Authorize(tName.Text);
         }
 
         private void BSendMessageOnClick(object sender, EventArgs e)
         {
-            var value = new ChatValue(tName.Text, tMessage.Text);
-            string message = tName.Text + ": " + tMessage.Text;
-            chatBox.Items.Add(message);
-
-            _network.Request(_owner, value, new ChatMessageCallbacks(ChatSendFail));
-        }
-
-        private void ChatSendFail(string reason)
-        {
-            chatBox.Items.Add("Chat Send Fail, Reason: " + reason);
-        }
-
-        private void AuthorizedSuccess()
-        {
-            tMessage.Enabled = true;
-            bSendMessage.Enabled = true;
-            chatBox.Items.Add("Authorized");
-        }
-
-        private void AuthorizedFail(string reason)
-        {
-            tName.Enabled = true;
-            bAuthorization.Enabled = true;
-            chatBox.Items.Add("Authorized Fail, Reason: " + reason);
+           _chatClient.SendMessage(tMessage.Text);
+            tMessage.Text = "";
         }
     }
 }

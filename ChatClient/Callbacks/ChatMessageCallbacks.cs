@@ -5,10 +5,10 @@ namespace ChatClient.Callbacks
     public delegate void ChatSendFailHandler(string reason);
     public class ChatMessageCallbacks :Network.Callbacks.Callbacks
     {
-        private readonly ChatSendFailHandler _chatSendFail;
-        public ChatMessageCallbacks(ChatSendFailHandler chatSendFail)
+        private readonly ChatClient _chatClient;
+        public ChatMessageCallbacks(ChatClient chatClient)
         {
-            _chatSendFail = chatSendFail;
+            _chatClient = chatClient;
         }
 
         public override void Ack(string value)
@@ -17,7 +17,7 @@ namespace ChatClient.Callbacks
 
         public override void Fail(string value)
         {
-            _chatSendFail.Invoke(value);
+           _chatClient.FailChat(value);
         }
     }
 }

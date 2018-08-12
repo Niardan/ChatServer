@@ -41,10 +41,10 @@
             this.tMessage = new System.Windows.Forms.TextBox();
             this.bSendMessage = new System.Windows.Forms.Button();
             this.updateTimer = new System.Windows.Forms.Timer(this.components);
-            this.chatBox = new System.Windows.Forms.ListBox();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.chatBox = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -132,6 +132,7 @@
             // 
             // tMessage
             // 
+            this.tMessage.Enabled = false;
             this.tMessage.Location = new System.Drawing.Point(80, 135);
             this.tMessage.Name = "tMessage";
             this.tMessage.Size = new System.Drawing.Size(392, 20);
@@ -139,6 +140,7 @@
             // 
             // bSendMessage
             // 
+            this.bSendMessage.Enabled = false;
             this.bSendMessage.Location = new System.Drawing.Point(478, 133);
             this.bSendMessage.Name = "bSendMessage";
             this.bSendMessage.Size = new System.Drawing.Size(75, 23);
@@ -151,16 +153,6 @@
             // 
             this.updateTimer.Enabled = true;
             this.updateTimer.Tick += new System.EventHandler(this.UpdateTimerOnTick);
-            // 
-            // chatBox
-            // 
-            this.chatBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.chatBox.Location = new System.Drawing.Point(12, 168);
-            this.chatBox.Name = "chatBox";
-            this.chatBox.Size = new System.Drawing.Size(541, 251);
-            this.chatBox.TabIndex = 11;
             // 
             // label5
             // 
@@ -185,6 +177,16 @@
             this.label6.Size = new System.Drawing.Size(565, 2);
             this.label6.TabIndex = 13;
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // chatBox
+            // 
+            this.chatBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.chatBox.Location = new System.Drawing.Point(12, 168);
+            this.chatBox.Name = "chatBox";
+            this.chatBox.Size = new System.Drawing.Size(541, 251);
+            this.chatBox.TabIndex = 11;
             // 
             // ChatForm
             // 
@@ -227,10 +229,10 @@
         private System.Windows.Forms.TextBox tMessage;
         private System.Windows.Forms.Button bSendMessage;
         private System.Windows.Forms.Timer updateTimer;
-        private System.Windows.Forms.ListBox chatBox;
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ListBox chatBox;
     }
 }
 

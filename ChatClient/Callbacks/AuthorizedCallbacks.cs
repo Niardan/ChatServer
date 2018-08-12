@@ -4,32 +4,31 @@ using Network.Owner;
 
 namespace ChatClient.Callbacks
 {
-    public delegate void AuthorizedSuccessHandler();
-    public delegate void AuthorizedFailHandler(string reason);
+  
     public class AuthorizedCallbacks : Network.Callbacks.Callbacks
     {
         private readonly MyNetwork _network;
         private readonly IOwner _owner;
-        private readonly AuthorizedSuccessHandler _authorizedSuccess;
-        private readonly AuthorizedFailHandler _authorizedFail;
-        public AuthorizedCallbacks(MyNetwork network, IOwner owner, AuthorizedSuccessHandler authorizedSuccess, AuthorizedFailHandler authorizedFail)
+
+        private readonly ChatClient _chatClient;
+
+        public AuthorizedCallbacks(MyNetwork network, IOwner owner, ChatClient chatClient)
         {
             _network = network;
             _owner = owner;
-            _authorizedSuccess = authorizedSuccess;
-            _authorizedFail = authorizedFail;
+            _chatClient = chatClient;
         }
 
         public override void Ack(string value)
         {
             _network.Authorize(_owner, true);
-           _authorizedSuccess.Invoke();
+           _chatClient.SuccessAuthorize();
         }
 
         public override void Fail(string value)
         {
             _network.Authorize(_owner, false);
-           _authorizedFail.Invoke(value);
+          _chatClient.FailAuthorize(value);
         }
     }
 }
