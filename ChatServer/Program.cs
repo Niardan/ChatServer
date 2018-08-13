@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Timers;
 using Network.Network;
 using Network.Protocol;
@@ -14,7 +12,7 @@ namespace ChatServer
         private static Timer _timer;
         private static ChatServer _server;
 
-        static void Main(string[] args)
+        static void Main()
         {
             var parametrs = new Parametrs("config.ini");
             parametrs.LoadParametrs();

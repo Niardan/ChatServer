@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Callbacks\Callbacks.cs" />
-    <Compile Include="Callbacks\ChatMessageCallbacks.cs" />
     <Compile Include="Callbacks\ICallbacks.cs" />
     <Compile Include="Callbacks\NoCallbacks.cs" />
     <Compile Include="Callbacks\UdpNetworkRequestCallback.cs" />

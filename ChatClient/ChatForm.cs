@@ -18,7 +18,6 @@ namespace ChatClient
             InitializeComponent();
             var parametrs = new Parametrs("config.ini");
             parametrs.LoadParametrs();
-            parametrs.SaveParametrs();
 
             var transport = new LiteNetLibTransport(parametrs.MaxConnection, parametrs.KeyConnection);
             var protocol = new TransportUdpProtocol(transport, parametrs.MaxMessageSize, new BinarySerializer());
@@ -59,7 +58,7 @@ namespace ChatClient
                 case ClientStage.Connected:
                     tName.Enabled = true;
                     bAuthorization.Enabled = true;
-                    bConnect.Text = "Diconnect";
+                    bConnect.Text = "Disconnect";
                     bConnect.Enabled = true;
                     AcceptButton = bAuthorization;
                     break;

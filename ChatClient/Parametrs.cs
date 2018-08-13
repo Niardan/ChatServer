@@ -1,14 +1,14 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Xml.Serialization;
 
 namespace ChatClient
 {
     public class Parametrs
     {
+        private readonly XmlSerializer _serializer;
+        private readonly string _pathParametrs;
+
         private ParametrsModel _parametrs;
-        private XmlSerializer _serializer;
-        private string _pathParametrs;
 
         public Parametrs(string pathParametrs)
         {
@@ -37,7 +37,7 @@ namespace ChatClient
             }
         }
 
-        public void SaveParametrs()
+        private void SaveParametrs()
         {
             using (Stream stream = new FileStream(_pathParametrs, FileMode.Create))
             {

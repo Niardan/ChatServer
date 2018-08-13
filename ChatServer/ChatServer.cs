@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ChatServer.Callbacks;
 using Network.Callbacks;
 using Network.Network;
 using Network.Owner;
@@ -27,7 +28,7 @@ namespace ChatServer
             _network = network;
             _maxLengthMessage = maxLengthMessage;
             _network.AuthorizeReceived += OnAuthorizeReceived;
-            _network.Connected+=NetworkOnConnected;
+            _network.Connected += NetworkOnConnected;
             _network.Disconnected += OnDisconnected;
             _network.RequestReceived += OnRequestReceived;
             Console.WriteLine("ChatServer Run");
@@ -66,7 +67,7 @@ namespace ChatServer
                     IOwner clientOwner = client.Key;
                     if (clientOwner != owner)
                     {
-                        _network.Request(clientOwner, value, new ChatMessageCallbacks(name, client.Value, value.Message));
+                        _network.Request(clientOwner, value, new ChatCallbacks(name, client.Value, value.Message));
                     }
                 }
                 callback.Ack(_ok);
@@ -96,7 +97,7 @@ namespace ChatServer
         {
             if (string.IsNullOrEmpty(name))
             {
-                Console.WriteLine("Authorized failed");
+                Console.WriteLine("Authorized failed, empty name, address {0}", owner.Id);
                 callbacks.Fail(_incorrectUsername);
                 _network.Authorize(owner, false);
                 return;
@@ -106,14 +107,14 @@ namespace ChatServer
             {
                 if (item == name)
                 {
-                    Console.WriteLine("Authorized failed");
+                    Console.WriteLine("Authorized failed, dublicate name, address {0}", owner.Id);
                     callbacks.Fail(_dublicateUsername);
                     _network.Authorize(owner, false);
                     return;
                 }
             }
             Console.WriteLine("Authorized true, address: {0}", owner.Id);
-           
+
             callbacks.Ack(_ok);
             _network.Authorize(owner, true);
             _clients.Add(owner, name);

@@ -1,9 +1,6 @@
-﻿using System;
-
-namespace Network.Values
+﻿namespace Network.Values
 {
     public interface IValue
     {
-        
     }
 }

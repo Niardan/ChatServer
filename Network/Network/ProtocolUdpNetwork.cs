@@ -19,7 +19,7 @@ namespace Network.Network
         private readonly int _timeout;
 
         private readonly IDictionary<long, Tuple<ICallbacks, RequestInfo>> _callbacks = new Dictionary<long, Tuple<ICallbacks, RequestInfo>>();
-        private int _countRequest = 0;
+        private int _countRequest;
 
         private readonly string _alreadyAuthorized = "alreadyAuthorized";
         private readonly string _notAuthorized = "notAuthorized";
@@ -154,7 +154,6 @@ namespace Network.Network
                 _sent.Remove(node);
                 var callback = _callbacks[requestInfo.Id].Item1;
                 _callbacks.Remove(requestInfo.Id);
-                IOwner owner = requestInfo.Owner;
                 callback.Fail(_timeoutMessage);
             }
         }

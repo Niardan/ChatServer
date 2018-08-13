@@ -24,7 +24,7 @@ namespace Network.Protocol
 
         void Connect(string host, int port);
         void Disconnect(string address);
-        
+
         void Request(string address, int id, IValue value);
         void Authorize(string address, int id, string name);
         void Ack(string address, int id, string text);

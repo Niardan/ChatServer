@@ -10,9 +10,9 @@ namespace Network.Values
             Answer = answer;
             Text = text;
         }
-        
+
         public string Answer { get; set; }
-      
+
         public string Text { get; set; }
     }
 }

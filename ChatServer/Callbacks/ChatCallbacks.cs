@@ -1,14 +1,14 @@
 ﻿using System;
 
-namespace Network.Callbacks
+namespace ChatServer.Callbacks
 {
-    public class ChatMessageCallbacks : Callbacks
+    public class ChatCallbacks : Network.Callbacks.Callbacks
     {
         private readonly string _nameSender;
         private readonly string _nameRecipient;
         private readonly string _message;
 
-        public ChatMessageCallbacks(string nameSender, string nameRecipient, string message)
+        public ChatCallbacks(string nameSender, string nameRecipient, string message)
         {
             _nameSender = nameSender;
             _nameRecipient = nameRecipient;

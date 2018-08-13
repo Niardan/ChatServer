@@ -19,7 +19,7 @@ namespace Network.Utils
         {
             using (MemoryStream stream = new MemoryStream(bytes))
             {
-               T value = (T)_formatter.Deserialize(stream);
+                T value = (T)_formatter.Deserialize(stream);
                 return value;
             }
         }

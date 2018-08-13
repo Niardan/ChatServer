@@ -13,9 +13,10 @@ namespace ChatClient
     {
         private readonly ProtocolUdpNetwork _network;
         private readonly IUdpTransport _transport;
+        private readonly int _maxMessageLenght;
+
         private IOwner _owner;
         private string _name;
-        private int _maxMessageLenght;
 
         public ChatClient(IUdpTransport transport, ProtocolUdpNetwork network, int maxMessageLenght)
         {
@@ -97,7 +98,7 @@ namespace ChatClient
         public void FailAuthorize(string reason)
         {
             CallChangeStage(ClientStage.Connected);
-            CallMessage("Authorized Fail, Reason: " + reason, true);
+            CallMessage("Authorized fail. Reason: " + reason, true);
         }
 
         public void FailChat(string reason)
@@ -125,7 +126,7 @@ namespace ChatClient
 
         private void NetworkOnRequestReceived(IUdpNetwork network, IOwner owner, IValue request, Network.Callbacks.ICallbacks callbacks)
         {
-            callbacks.Ack("ok");
+            callbacks.Ack("Ok");
             var value = (ChatValue)request;
             string message = value.Name + ": " + value.Message;
             CallMessage(message, false);
