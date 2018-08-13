@@ -7,12 +7,12 @@ namespace ChatClient.Callbacks
   
     public class AuthorizedCallbacks : Network.Callbacks.Callbacks
     {
-        private readonly MyNetwork _network;
+        private readonly ProtocolUdpNetwork _network;
         private readonly IOwner _owner;
 
         private readonly ChatClient _chatClient;
 
-        public AuthorizedCallbacks(MyNetwork network, IOwner owner, ChatClient chatClient)
+        public AuthorizedCallbacks(ProtocolUdpNetwork network, IOwner owner, ChatClient chatClient)
         {
             _network = network;
             _owner = owner;

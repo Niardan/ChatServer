@@ -1,9 +1,7 @@
 ﻿using ChatClient.Callbacks;
 using Network.Network;
 using Network.Owner;
-using Network.Protocol;
 using Network.Transport;
-using Network.Utils;
 using Network.Values;
 
 namespace ChatClient
@@ -13,18 +11,20 @@ namespace ChatClient
 
     public class ChatClient
     {
-        private readonly MyNetwork _network;
+        private readonly ProtocolUdpNetwork _network;
         private readonly IUdpTransport _transport;
         private IOwner _owner;
-        private bool _isConnect;
         private string _name;
+        private int _maxMessageLenght;
 
-        public ChatClient(IUdpTransport transport,  MyNetwork network)
+        public ChatClient(IUdpTransport transport, ProtocolUdpNetwork network, int maxMessageLenght)
         {
             _transport = transport;
+            _transport.Disconnected += TransportOnDisconnected;
+
             _network = network;
+            _maxMessageLenght = maxMessageLenght;
             _network.RequestReceived += NetworkOnRequestReceived;
-            _network.Disconnected += NetworkOnDisconnected;
             _network.Connected += NetworkOnConnected;
             _network.Start(0);
         }
@@ -69,10 +69,17 @@ namespace ChatClient
 
         public void SendMessage(string text)
         {
-            var value = new ChatValue(_name, text);
-            _network.Request(_owner, value, new ChatMessageCallbacks(this));
-            string message = _name + ": " + text;
-            CallMessage(message, false);
+            if (text.Length < _maxMessageLenght)
+            {
+                var value = new ChatValue(_name, text);
+                _network.Request(_owner, value, new ChatMessageCallbacks(this));
+                string message = _name + ": " + text;
+                CallMessage(message, false);
+            }
+            else
+            {
+                CallMessage("Message too large", true);
+            }
         }
 
         public void SuccessAuthorize()
@@ -104,7 +111,7 @@ namespace ChatClient
             CallMessage("Connected", true);
         }
 
-        private void NetworkOnDisconnected(IUdpNetwork network, IOwner owner)
+        private void TransportOnDisconnected(IUdpTransport transport, string address)
         {
             CallChangeStage(ClientStage.Disconnected);
             CallMessage("Disconnect", true);

@@ -1,3 +1,5 @@
 .vs/
 ChatServer/bin
 ChatServer/obj
+ChatClient/bin
+ChatClient/obj

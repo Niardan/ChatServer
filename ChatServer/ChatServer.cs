@@ -9,7 +9,7 @@ namespace ChatServer
 {
     public class ChatServer
     {
-        private readonly MyNetwork _network;
+        private readonly ProtocolUdpNetwork _network;
         private readonly IDictionary<IOwner, string> _clients = new Dictionary<IOwner, string>();
         private readonly Queue<Tuple<IOwner, IValue, ICallbacks>> _request = new Queue<Tuple<IOwner, IValue, ICallbacks>>();
 
@@ -20,7 +20,7 @@ namespace ChatServer
         private readonly string _ok = "ok";
 
         private readonly int _maxLengthMessage;
-        public ChatServer(MyNetwork network, int maxLengthMessage)
+        public ChatServer(ProtocolUdpNetwork network, int maxLengthMessage)
         {
             _network = network;
             _maxLengthMessage = maxLengthMessage;

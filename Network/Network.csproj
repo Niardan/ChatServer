@@ -61,7 +61,7 @@
     <Compile Include="Messages\RequestMessage.cs" />
     <Compile Include="Messages\ResponseMessage.cs" />
     <Compile Include="Network\IUdpNetwork.cs" />
-    <Compile Include="Network\MyNetwork.cs" />
+    <Compile Include="Network\ProtocolUdpNetwork.cs" />
     <Compile Include="Network\UdpNetwork.cs" />
     <Compile Include="Owner\IOwner.cs" />
     <Compile Include="Owner\Owner.cs" />

@@ -1,40 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ChatClient.Callbacks;
-using Network.Callbacks;
 using Network.Network;
-using Network.Owner;
 using Network.Protocol;
 using Network.Transport;
 using Network.Utils;
-using Network.Values;
-using ChatMessageCallbacks = ChatClient.Callbacks.ChatMessageCallbacks;
 
 namespace ChatClient
 {
     public partial class ChatForm : Form
     {
         private readonly ChatClient _chatClient;
-        private IOwner _owner;
-        private bool _isConnect;
 
         private ClientStage _currentStage;
 
         public ChatForm()
         {
             InitializeComponent();
+            var parametrs = new Parametrs("config.ini");
+            parametrs.LoadParametrs();
+            parametrs.SaveParametrs();
 
-            var transport = new LiteNetLibClientTransport(1, "1");
-            var protocol = new TransportUdpProtocol(transport, 1000, new BinarySerializer());
-            var network = new MyNetwork(protocol, new RealNow());
-            _chatClient = new ChatClient(transport, network);
+            var transport = new LiteNetLibClientTransport(parametrs.MaxConnection, parametrs.KeyConnection);
+            var protocol = new TransportUdpProtocol(transport, parametrs.MaxMessageSize, new BinarySerializer());
+            var network = new ProtocolUdpNetwork(protocol, new RealNow());
+
+            _chatClient = new ChatClient(transport, network, parametrs.MaxMessageLength);
             _chatClient.Message += ChatClientOnMessage;
             _chatClient.ChangeStage += ChatClientOnChangeStage;
             _currentStage = ClientStage.Disconnected;
@@ -109,12 +99,12 @@ namespace ChatClient
 
         private void bAuthorization_Click(object sender, EventArgs e)
         {
-           _chatClient.Authorize(tName.Text);
+            _chatClient.Authorize(tName.Text);
         }
 
         private void BSendMessageOnClick(object sender, EventArgs e)
         {
-           _chatClient.SendMessage(tMessage.Text);
+            _chatClient.SendMessage(tMessage.Text);
             tMessage.Text = "";
         }
     }

@@ -8,7 +8,7 @@ using Network.Values;
 
 namespace Network.Network
 {
-    public class MyNetwork : UdpNetwork
+    public class ProtocolUdpNetwork : UdpNetwork
     {
         private readonly INow _now;
         private readonly IUdpProtocol _protocol;
@@ -24,10 +24,10 @@ namespace Network.Network
         private readonly string _alreadyAuthorized = "alreadyAuthorized";
         private readonly string _notAuthorized = "notAuthorized";
         private readonly string _timeoutMessage = "timeout";
-        private readonly string _alreadyResponse = "alreadyResponse";
+      
         private readonly LinkedList<RequestInfo> _sent = new LinkedList<RequestInfo>();
 
-        public MyNetwork(IUdpProtocol protocol, INow now)
+        public ProtocolUdpNetwork(IUdpProtocol protocol, INow now)
         {
             _protocol = protocol;
             _now = now;
@@ -40,7 +40,7 @@ namespace Network.Network
                 _protocol.Connected += OnProtocolConnected;
                 _protocol.Disconnectd += OnProtocolDisconnected;
                 _protocol.AuthorizeReceived += OnProtocolAuthorizeReceived;
-                _protocol.RequestReceived += (protocol, address, id, message) => OnProtocolRequestReceived(protocol, address, id, message);
+                _protocol.RequestReceived += OnProtocolRequestReceived;
                 _protocol.ResponseReceived += OnProtocolResponseReceived;
 
                 return true;
@@ -53,8 +53,8 @@ namespace Network.Network
         {
             _protocol.Connected -= OnProtocolConnected;
             _protocol.Disconnectd -= OnProtocolDisconnected;
-            _protocol.AuthorizeReceived -= (protocol, address, id, name) => OnProtocolAuthorizeReceived(protocol, address, id, name);
-            _protocol.RequestReceived -= (protocol, address, id, message) => OnProtocolRequestReceived(protocol, address, id, message);
+            _protocol.AuthorizeReceived -= OnProtocolAuthorizeReceived;
+            _protocol.RequestReceived -= OnProtocolRequestReceived;
             _protocol.ResponseReceived -= OnProtocolResponseReceived;
 
             _protocol.Stop();
@@ -69,10 +69,13 @@ namespace Network.Network
 
         private void OnProtocolDisconnected(IUdpProtocol protocol, string address)
         {
-            IOwner owner = _toOwner[address];
-            _toOwner.Remove(address);
-            _toAutorized.Remove(address);
-            CallDisconnected(owner);
+            IOwner owner;
+            if (_toOwner.TryGetValue(address, out owner))
+            {
+                _toOwner.Remove(address);
+                _toAutorized.Remove(address);
+                CallDisconnected(owner);
+            }
         }
 
         private void OnProtocolAuthorizeReceived(IUdpProtocol protocol, string address, int id, string name)
@@ -134,7 +137,6 @@ namespace Network.Network
 
         public override void Update()
         {
-
             _protocol.Update();
 
             while (_sent.Count > 0)
