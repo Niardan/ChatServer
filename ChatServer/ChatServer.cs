@@ -17,9 +17,11 @@ namespace ChatServer
         private readonly string _incorrectUsername = "incorrectUsername";
         private readonly string _unknownFormat = "unknownFormat";
         private readonly string _toBigChatMessage = "toBigChatMessage";
+        private readonly string _toEmptyMessage = "toEmptyMessage";
         private readonly string _ok = "ok";
 
         private readonly int _maxLengthMessage;
+
         public ChatServer(ProtocolUdpNetwork network, int maxLengthMessage)
         {
             _network = network;
@@ -42,6 +44,12 @@ namespace ChatServer
                 if (value == null)
                 {
                     callback.Fail(_unknownFormat);
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(value.Message))
+                {
+                    callback.Fail(_toEmptyMessage);
                     return;
                 }
 
@@ -85,6 +93,7 @@ namespace ChatServer
                 _network.Authorize(owner, false);
                 return;
             }
+
             foreach (var item in _clients.Values)
             {
                 if (item == name)
@@ -95,6 +104,7 @@ namespace ChatServer
                     return;
                 }
             }
+
             Console.WriteLine("Authorized true");
             callbacks.Ack(_ok);
             _network.Authorize(owner, true);

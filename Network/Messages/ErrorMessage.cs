@@ -9,11 +9,7 @@ namespace Network.Messages
         {
             Error = error;
         }
-      
+
         public string Error { set; get; }
-      
-        public int Id { get; set; }
-    
-        public string TypeMessage { get; set; }
     }
 }

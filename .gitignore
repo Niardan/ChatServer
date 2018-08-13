@@ -3,3 +3,5 @@ ChatServer/bin
 ChatServer/obj
 ChatClient/bin
 ChatClient/obj
+Network/bin
+Network/obj

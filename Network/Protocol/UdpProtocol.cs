@@ -66,7 +66,7 @@ namespace Network.Protocol
         }
         protected void CallErrorReceived(string address, string errorCode)
         {
-            if (ResponseReceived != null)
+            if (ErrorReceived != null)
             {
                 ErrorReceived(this, address, errorCode);
             }

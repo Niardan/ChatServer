@@ -69,16 +69,22 @@ namespace ChatClient
 
         public void SendMessage(string text)
         {
-            if (text.Length < _maxMessageLenght)
+            if (string.IsNullOrEmpty(text))
+            {
+                CallMessage("Fail. Message empty.", true);
+            }
+
+            else if (text.Length > _maxMessageLenght)
+            {
+                CallMessage("Fail. Message to big.", true);
+            }
+
+            else
             {
                 var value = new ChatValue(_name, text);
                 _network.Request(_owner, value, new ChatMessageCallbacks(this));
                 string message = _name + ": " + text;
                 CallMessage(message, false);
-            }
-            else
-            {
-                CallMessage("Message too large", true);
             }
         }
 
@@ -96,7 +102,7 @@ namespace ChatClient
 
         public void FailChat(string reason)
         {
-            CallMessage("Chat Send Fail, Reason: " + reason, true);
+            CallMessage("Server chat send fail. Reason: " + reason, true);
         }
 
         public void Update()
@@ -117,13 +123,12 @@ namespace ChatClient
             CallMessage("Disconnect", true);
         }
 
-        private void NetworkOnRequestReceived(IUdpNetwork network, Network.Owner.IOwner owner, Network.Values.IValue request, Network.Callbacks.ICallbacks callbacks)
+        private void NetworkOnRequestReceived(IUdpNetwork network, IOwner owner, IValue request, Network.Callbacks.ICallbacks callbacks)
         {
             var value = (ChatValue)request;
             string message = value.Name + ": " + value.Message;
             CallMessage(message, false);
         }
-
     }
 
     public enum ClientStage

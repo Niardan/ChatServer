@@ -119,7 +119,7 @@
             this.bAuthorization.TabIndex = 7;
             this.bAuthorization.Text = "Авторизация";
             this.bAuthorization.UseVisualStyleBackColor = true;
-            this.bAuthorization.Click += new System.EventHandler(this.bAuthorization_Click);
+            this.bAuthorization.Click += new System.EventHandler(this.BAuthorization_Click);
             // 
             // label4
             // 

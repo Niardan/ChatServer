@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Serialization;
-using Newtonsoft.Json;
 
 namespace ChatClient
 {
@@ -33,6 +32,8 @@ namespace ChatClient
                 _parametrs.KeyConnection = "1234";
                 _parametrs.MaxMessageSize = 1000;
                 _parametrs.MaxMessageLength = 10;
+                _parametrs.Timeout = 5000;
+                SaveParametrs();
             }
         }
 
@@ -43,10 +44,12 @@ namespace ChatClient
                 _serializer.Serialize(stream, _parametrs);
             }
         }
+
         public int MaxConnection { get { return _parametrs.MaxConnection; } }
         public string KeyConnection { get { return _parametrs.KeyConnection; } }
         public int MaxMessageSize { get { return _parametrs.MaxMessageSize; } }
         public int MaxMessageLength { get { return _parametrs.MaxMessageLength; } }
+        public int Timeout { get { return _parametrs.Timeout; } }
     }
 
     public class ParametrsModel
@@ -55,5 +58,6 @@ namespace ChatClient
         public string KeyConnection { set; get; }
         public int MaxMessageSize { set; get; }
         public int MaxMessageLength { set; get; }
+        public int Timeout { set; get; }
     }
 }

@@ -1,10 +1,8 @@
-﻿using System.Windows.Forms;
-using Network.Network;
+﻿using Network.Network;
 using Network.Owner;
 
 namespace ChatClient.Callbacks
 {
-  
     public class AuthorizedCallbacks : Network.Callbacks.Callbacks
     {
         private readonly ProtocolUdpNetwork _network;
@@ -22,13 +20,13 @@ namespace ChatClient.Callbacks
         public override void Ack(string value)
         {
             _network.Authorize(_owner, true);
-           _chatClient.SuccessAuthorize();
+            _chatClient.SuccessAuthorize();
         }
 
         public override void Fail(string value)
         {
             _network.Authorize(_owner, false);
-          _chatClient.FailAuthorize(value);
+            _chatClient.FailAuthorize(value);
         }
     }
 }

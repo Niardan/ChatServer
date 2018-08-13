@@ -16,7 +16,6 @@ namespace Network.Protocol
         event ProtocolAuthorizeReceived AuthorizeReceived;
         event ProtocolRequestReceived RequestReceived;
         event ProtocolResponseReceived ResponseReceived;
-        event ProtocolErrorHandler ErrorReceived;
 
         bool Start(int port);
         void Stop();

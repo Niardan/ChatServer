@@ -16,7 +16,7 @@ namespace Network.Network
         private readonly ICollection<string> _toAutorized = new HashSet<string>();
         private readonly ICollection<string> _authorizing = new HashSet<string>();
 
-        private const long _timeout = 5000;
+        private readonly int _timeout;
 
         private readonly IDictionary<long, Tuple<ICallbacks, RequestInfo>> _callbacks = new Dictionary<long, Tuple<ICallbacks, RequestInfo>>();
         private int _countRequest = 0;
@@ -24,13 +24,14 @@ namespace Network.Network
         private readonly string _alreadyAuthorized = "alreadyAuthorized";
         private readonly string _notAuthorized = "notAuthorized";
         private readonly string _timeoutMessage = "timeout";
-      
+
         private readonly LinkedList<RequestInfo> _sent = new LinkedList<RequestInfo>();
 
-        public ProtocolUdpNetwork(IUdpProtocol protocol, INow now)
+        public ProtocolUdpNetwork(IUdpProtocol protocol, INow now, int timeout)
         {
             _protocol = protocol;
             _now = now;
+            _timeout = timeout;
         }
 
         public override bool Start(int port)
@@ -173,14 +174,16 @@ namespace Network.Network
 
         public override void Authorize(IOwner owner, string name, ICallbacks callbacks)
         {
-            if (!_toAutorized.Contains(owner.Id))
+            string address = owner.Id;
+            if (!_toAutorized.Contains(address))
             {
                 int id = _countRequest;
                 _countRequest++;
                 var requestInfo = new RequestInfo(owner, id, _now.Get);
                 _sent.AddLast(requestInfo);
                 _callbacks.Add(id, new Tuple<ICallbacks, RequestInfo>(callbacks, requestInfo));
-                _protocol.Authorize(owner.Id, id, name);
+                _authorizing.Add(address);
+                _protocol.Authorize(address, id, name);
             }
         }
 

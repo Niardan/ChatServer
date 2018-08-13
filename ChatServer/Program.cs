@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
-using MessagePack;
 using Network.Network;
 using Network.Protocol;
 using Network.Transport;
@@ -19,13 +16,15 @@ namespace ChatServer
 
         static void Main(string[] args)
         {
-            var transport = new LiteNetLibServerTransport(100, "1234");
-            var protocol = new TransportUdpProtocol(transport, 1000, new BinarySerializer());
-            var network = new ProtocolUdpNetwork(protocol, new RealNow());
-            _server = new ChatServer(network, 10);
+            var parametrs = new Parametrs("config.ini");
+            parametrs.LoadParametrs();
+            var transport = new LiteNetLibServerTransport(parametrs.MaxConnection, parametrs.KeyConnection);
+            var protocol = new TransportUdpProtocol(transport, parametrs.MaxMessageSize, new BinarySerializer());
+            var network = new ProtocolUdpNetwork(protocol, new RealNow(), parametrs.Timeout);
+            _server = new ChatServer(network, parametrs.MaxMessageLength);
             _timer = new Timer(100);
             _timer.Elapsed += OnTimerElapsed;
-            network.Start(41200);
+            network.Start(parametrs.Port);
             _timer.Start();
 
             Console.ReadKey();

@@ -11,14 +11,14 @@ namespace Network.Protocol
         private readonly ISerializer _serializer;
         private readonly int _maxMessageSize;
 
-        private const string _ack = "ack";
-        private const string _fail = "fail";
+        private readonly string _ack = "ack";
+        private readonly string _fail = "fail";
 
-        private const string _tooBigMessage = "toBigMessage";
-        private const string _invalidMessage = "invalidMessage";
-        private const string _invalidAuthorize = "invalidAuthorize";
-        private const string _invalidRequest = "invalidRequest";
-        private const string _invalidResponse = "invalidResponse";
+        private readonly string _tooBigMessage = "toBigMessage";
+        private readonly string _invalidMessage = "invalidMessage";
+        private readonly string _invalidAuthorize = "invalidAuthorize";
+        private readonly string _invalidRequest = "invalidRequest";
+        private readonly string _invalidResponse = "invalidResponse";
 
         public TransportUdpProtocol(IUdpTransport transport, int maxMessageSize, ISerializer serializer)
         {

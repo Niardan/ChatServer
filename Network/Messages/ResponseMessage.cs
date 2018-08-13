@@ -10,7 +10,7 @@ namespace Network.Messages
         {
             Answer = answer;
         }
-       
+
         public IValue Answer { get; set; }
     }
 }

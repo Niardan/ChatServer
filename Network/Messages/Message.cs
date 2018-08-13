@@ -10,9 +10,9 @@ namespace Network.Messages
             Id = id;
             TypeMessage = typeMessage;
         }
-    
+
         public int Id { get; set; }
-      
+
         public string TypeMessage { get; set; }
     }
 }

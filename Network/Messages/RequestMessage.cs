@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using Network.Values;
 
 namespace Network.Messages
@@ -11,7 +10,7 @@ namespace Network.Messages
         {
             MessageValue = messageValue;
         }
-        
+
         public IValue MessageValue { get; set; }
     }
 }

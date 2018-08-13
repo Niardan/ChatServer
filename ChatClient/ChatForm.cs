@@ -22,7 +22,7 @@ namespace ChatClient
 
             var transport = new LiteNetLibClientTransport(parametrs.MaxConnection, parametrs.KeyConnection);
             var protocol = new TransportUdpProtocol(transport, parametrs.MaxMessageSize, new BinarySerializer());
-            var network = new ProtocolUdpNetwork(protocol, new RealNow());
+            var network = new ProtocolUdpNetwork(protocol, new RealNow(), parametrs.Timeout);
 
             _chatClient = new ChatClient(transport, network, parametrs.MaxMessageLength);
             _chatClient.Message += ChatClientOnMessage;
@@ -76,9 +76,12 @@ namespace ChatClient
 
         private void ChatClientOnMessage(string text, bool system)
         {
+            if (system)
+            {
+                text = "System: " + text;
+            }
             chatBox.Items.Add(text);
         }
-
 
         private void BConnectOnClick(object sender, EventArgs e)
         {
@@ -97,7 +100,7 @@ namespace ChatClient
             _chatClient.Update();
         }
 
-        private void bAuthorization_Click(object sender, EventArgs e)
+        private void BAuthorization_Click(object sender, EventArgs e)
         {
             _chatClient.Authorize(tName.Text);
         }

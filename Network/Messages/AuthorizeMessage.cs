@@ -9,7 +9,7 @@ namespace Network.Messages
         {
             Name = name;
         }
- 
+
         public string Name { get; set; }
     }
 }
