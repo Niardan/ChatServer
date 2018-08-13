@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Callbacks\AuthorizedCallbacks.cs" />
     <Compile Include="Callbacks\ChatMessageCallbacks.cs" />
     <Compile Include="ChatClient.cs" />
     <Compile Include="ChatForm.cs">

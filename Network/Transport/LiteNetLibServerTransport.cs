@@ -4,7 +4,7 @@ using LiteNetLib.Utils;
 
 namespace Network.Transport
 {
-    public class LiteNetLibTransport : UdpTransport
+    public class LiteNetLibServerTransport : UdpTransport
     {
         private readonly EventBasedNetListener _listener = new EventBasedNetListener();
         private readonly NetManager _netManager;
@@ -12,23 +12,14 @@ namespace Network.Transport
         private readonly IDictionary<string, NetPeer> _toPeer = new Dictionary<string, NetPeer>();
         private readonly IDictionary<NetPeer, string> _toAddress = new Dictionary<NetPeer, string>();
 
-        public LiteNetLibTransport(int maxConnections, string connectKey)
+        public LiteNetLibServerTransport(int maxConnections, string connectKey)
         {
             _netManager = new NetManager(_listener, maxConnections, connectKey);
         }
 
         public override bool Start(int port)
         {
-            bool start;
-            if (port != 0)
-            {
-                start = _netManager.Start(port);
-            }
-            else
-            {
-                start = _netManager.Start();
-            }
-            if (start)
+            if (_netManager.Start(port))
             {
                 _listener.PeerConnectedEvent += OnPeerConnected;
                 _listener.PeerDisconnectedEvent += OnPeerDisconnected;
@@ -57,9 +48,7 @@ namespace Network.Transport
 
         public override void Connect(string host, int port)
         {
-            string address = host + ":" +  port;
-            NetPeer peer = _netManager.Connect(host, port);
-            peer.Tag = address;
+            _netManager.Connect(host, port);
         }
 
         public override void Disconnect(string address)
@@ -100,17 +89,6 @@ namespace Network.Transport
                 _toAddress.Remove(peer);
                 CallDisconnected(address);
             }
-            else
-            {
-                address = ToAddress(peer);
-                if (_toPeer.ContainsKey(address))
-                {
-                    _toPeer.Remove(address);
-                    CallDisconnected(address);
-                }
-            }
-
-            peer.Tag = null;
         }
 
         private void OnNetworkReceive(NetPeer peer, NetDataReader reader)
@@ -127,29 +105,9 @@ namespace Network.Transport
             CallError(ToAddress(endPoint), socketErrorCode);
         }
 
-        private string ToAddress(NetPeer peer)
-        {
-            object tag = peer.Tag;
-            if (tag != null)
-            {
-                return (string)tag;
-            }
-            return string.Empty;
-        }
-
         private string ToAddress(NetEndPoint endPoint)
         {
-            if (endPoint == null)
-            {
-                return string.Empty;
-            }
-
-            string host = endPoint.Host;
-            if (host == null)
-            {
-                host = string.Empty;
-            }
-            return host + ":" +  endPoint.Port;
+            return endPoint.Host + endPoint.Port;
         }
     }
 }

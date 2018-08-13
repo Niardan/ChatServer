@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 using Network.Network;
 using Network.Protocol;
@@ -12,11 +14,11 @@ namespace ChatServer
         private static Timer _timer;
         private static ChatServer _server;
 
-        static void Main()
+        static void Main(string[] args)
         {
             var parametrs = new Parametrs("config.ini");
             parametrs.LoadParametrs();
-            var transport = new LiteNetLibTransport(parametrs.MaxConnection, parametrs.KeyConnection);
+            var transport = new LiteNetLibServerTransport(parametrs.MaxConnection, parametrs.KeyConnection);
             var protocol = new TransportUdpProtocol(transport, parametrs.MaxMessageSize, new BinarySerializer());
             var network = new ProtocolUdpNetwork(protocol, new RealNow(), parametrs.Timeout);
             _server = new ChatServer(network, parametrs.MaxMessageLength);
@@ -24,7 +26,7 @@ namespace ChatServer
             _timer.Elapsed += OnTimerElapsed;
             network.Start(parametrs.Port);
             _timer.Start();
-            Console.WriteLine("Serve run, port: {0} ", parametrs.Port);
+
             Console.ReadKey();
         }
 

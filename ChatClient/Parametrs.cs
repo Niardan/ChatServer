@@ -25,7 +25,7 @@ namespace ChatClient
                     _parametrs = (ParametrsModel)_serializer.Deserialize(stream);
                 }
             }
-            catch
+            catch (Exception e)
             {
                 _parametrs = new ParametrsModel();
                 _parametrs.MaxConnection = 1;

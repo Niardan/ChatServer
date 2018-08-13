@@ -54,6 +54,7 @@
     <Compile Include="Callbacks\ICallbacks.cs" />
     <Compile Include="Callbacks\NoCallbacks.cs" />
     <Compile Include="Callbacks\UdpNetworkRequestCallback.cs" />
+    <Compile Include="Messages\AuthorizeMessage.cs" />
     <Compile Include="Messages\ErrorMessage.cs" />
     <Compile Include="Messages\IMessage.cs" />
     <Compile Include="Messages\Message.cs" />
@@ -69,7 +70,8 @@
     <Compile Include="Protocol\TransportUdpProtocol.cs" />
     <Compile Include="Protocol\UdpProtocol.cs" />
     <Compile Include="Transport\IUdpTransport.cs" />
-    <Compile Include="Transport\LiteNetLibTransport.cs" />
+    <Compile Include="Transport\LiteNetLibClientTransport.cs" />
+    <Compile Include="Transport\LiteNetLibServerTransport.cs" />
     <Compile Include="Transport\UdpTransport.cs" />
     <Compile Include="Utils\BinarySerializer.cs" />
     <Compile Include="Utils\INow.cs" />
