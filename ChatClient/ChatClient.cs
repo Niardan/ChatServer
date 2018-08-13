@@ -125,6 +125,7 @@ namespace ChatClient
 
         private void NetworkOnRequestReceived(IUdpNetwork network, IOwner owner, IValue request, Network.Callbacks.ICallbacks callbacks)
         {
+            callbacks.Ack("ok");
             var value = (ChatValue)request;
             string message = value.Name + ": " + value.Message;
             CallMessage(message, false);
