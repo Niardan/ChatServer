@@ -13,9 +13,9 @@ namespace ChatClient
     {
         private readonly ProtocolUdpNetwork _network;
         private readonly IUdpTransport _transport;
+        private readonly int _maxMessageLenght;
+
         private IOwner _owner;
-        private string _name;
-        private int _maxMessageLenght;
 
         public ChatClient(IUdpTransport transport, ProtocolUdpNetwork network, int maxMessageLenght)
         {
@@ -60,14 +60,7 @@ namespace ChatClient
             CallChangeStage(ClientStage.Disconnecting);
         }
 
-        public void Authorize(string name)
-        {
-            _name = name;
-            _network.Authorize(_owner, name, new AuthorizedCallbacks(_network, _owner, this));
-            CallChangeStage(ClientStage.Authorizing);
-        }
-
-        public void SendMessage(string text)
+        public void SendMessage(string name, string text)
         {
             if (string.IsNullOrEmpty(text))
             {
@@ -81,23 +74,11 @@ namespace ChatClient
 
             else
             {
-                var value = new ChatValue(_name, text);
+                var value = new ChatValue(name, text);
                 _network.Request(_owner, value, new ChatMessageCallbacks(this));
-                string message = _name + ": " + text;
+                string message = name + ": " + text;
                 CallMessage(message, false);
             }
-        }
-
-        public void SuccessAuthorize()
-        {
-            CallChangeStage(ClientStage.Autorized);
-            CallMessage("Authorized", true);
-        }
-
-        public void FailAuthorize(string reason)
-        {
-            CallChangeStage(ClientStage.Autorized);
-            CallMessage("Authorized Fail, Reason: " + reason, true);
         }
 
         public void FailChat(string reason)
@@ -137,8 +118,6 @@ namespace ChatClient
         Disconnecting,
         Disconnected,
         Connecting,
-        Connected,
-        Authorizing,
-        Autorized
+        Connected
     }
 }

@@ -34,17 +34,15 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.tPort = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tName = new System.Windows.Forms.TextBox();
-            this.bAuthorization = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.tMessage = new System.Windows.Forms.TextBox();
             this.bSendMessage = new System.Windows.Forms.Button();
             this.updateTimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.chatBox = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -92,39 +90,10 @@
             this.tPort.TabIndex = 4;
             this.tPort.Text = "41200";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 68);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Имя";
-            // 
-            // tName
-            // 
-            this.tName.Enabled = false;
-            this.tName.Location = new System.Drawing.Point(45, 65);
-            this.tName.Name = "tName";
-            this.tName.Size = new System.Drawing.Size(203, 20);
-            this.tName.TabIndex = 6;
-            this.tName.Text = "Vel";
-            // 
-            // bAuthorization
-            // 
-            this.bAuthorization.Enabled = false;
-            this.bAuthorization.Location = new System.Drawing.Point(254, 62);
-            this.bAuthorization.Name = "bAuthorization";
-            this.bAuthorization.Size = new System.Drawing.Size(97, 23);
-            this.bAuthorization.TabIndex = 7;
-            this.bAuthorization.Text = "Авторизация";
-            this.bAuthorization.UseVisualStyleBackColor = true;
-            this.bAuthorization.Click += new System.EventHandler(this.BAuthorization_Click);
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 138);
+            this.label4.Location = new System.Drawing.Point(164, 66);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(68, 13);
             this.label4.TabIndex = 8;
@@ -133,15 +102,15 @@
             // tMessage
             // 
             this.tMessage.Enabled = false;
-            this.tMessage.Location = new System.Drawing.Point(80, 135);
+            this.tMessage.Location = new System.Drawing.Point(245, 63);
             this.tMessage.Name = "tMessage";
-            this.tMessage.Size = new System.Drawing.Size(392, 20);
+            this.tMessage.Size = new System.Drawing.Size(227, 20);
             this.tMessage.TabIndex = 9;
             // 
             // bSendMessage
             // 
             this.bSendMessage.Enabled = false;
-            this.bSendMessage.Location = new System.Drawing.Point(478, 133);
+            this.bSendMessage.Location = new System.Drawing.Point(478, 61);
             this.bSendMessage.Name = "bSendMessage";
             this.bSendMessage.Size = new System.Drawing.Size(75, 23);
             this.bSendMessage.TabIndex = 10;
@@ -166,42 +135,46 @@
             this.label5.TabIndex = 12;
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label6.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label6.Location = new System.Drawing.Point(0, 100);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(565, 2);
-            this.label6.TabIndex = 13;
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // chatBox
             // 
             this.chatBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.chatBox.Location = new System.Drawing.Point(12, 168);
+            this.chatBox.Location = new System.Drawing.Point(12, 96);
             this.chatBox.Name = "chatBox";
-            this.chatBox.Size = new System.Drawing.Size(541, 251);
+            this.chatBox.Size = new System.Drawing.Size(541, 199);
             this.chatBox.TabIndex = 11;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 66);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(29, 13);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Имя";
+            // 
+            // tName
+            // 
+            this.tName.Enabled = false;
+            this.tName.Location = new System.Drawing.Point(45, 63);
+            this.tName.Name = "tName";
+            this.tName.Size = new System.Drawing.Size(100, 20);
+            this.tName.TabIndex = 14;
+            this.tName.Text = "Тест";
             // 
             // ChatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(564, 432);
-            this.Controls.Add(this.label6);
+            this.ClientSize = new System.Drawing.Size(564, 302);
+            this.Controls.Add(this.tName);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.chatBox);
             this.Controls.Add(this.bSendMessage);
             this.Controls.Add(this.tMessage);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.bAuthorization);
-            this.Controls.Add(this.tName);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.tPort);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -222,17 +195,15 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tPort;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tName;
-        private System.Windows.Forms.Button bAuthorization;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox tMessage;
         private System.Windows.Forms.Button bSendMessage;
         private System.Windows.Forms.Timer updateTimer;
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ListBox chatBox;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox tName;
     }
 }
 

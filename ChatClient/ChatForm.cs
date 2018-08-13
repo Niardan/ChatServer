@@ -20,7 +20,7 @@ namespace ChatClient
             parametrs.LoadParametrs();
             parametrs.SaveParametrs();
 
-            var transport = new LiteNetLibClientTransport(parametrs.MaxConnection, parametrs.KeyConnection);
+            var transport = new LiteNetLibTransport(parametrs.MaxConnection, parametrs.KeyConnection);
             var protocol = new TransportUdpProtocol(transport, parametrs.MaxMessageSize, new BinarySerializer());
             var network = new ProtocolUdpNetwork(protocol, new RealNow(), parametrs.Timeout);
 
@@ -38,8 +38,8 @@ namespace ChatClient
                 case ClientStage.Disconnecting:
                     tMessage.Enabled = false;
                     tName.Enabled = false;
-                    bAuthorization.Enabled = false;
                     bSendMessage.Enabled = false;
+                    AcceptButton = bConnect;
                     break;
 
                 case ClientStage.Disconnected:
@@ -56,20 +56,12 @@ namespace ChatClient
                     break;
 
                 case ClientStage.Connected:
-                    tName.Enabled = true;
-                    bAuthorization.Enabled = true;
                     bConnect.Text = "Diconnect";
                     bConnect.Enabled = true;
-                    break;
-
-                case ClientStage.Authorizing:
-                    tName.Enabled = false;
-                    bAuthorization.Enabled = false;
-                    break;
-
-                case ClientStage.Autorized:
                     tMessage.Enabled = true;
+                    tName.Enabled = true;
                     bSendMessage.Enabled = true;
+                    AcceptButton = bSendMessage;
                     break;
             }
         }
@@ -100,14 +92,9 @@ namespace ChatClient
             _chatClient.Update();
         }
 
-        private void BAuthorization_Click(object sender, EventArgs e)
-        {
-            _chatClient.Authorize(tName.Text);
-        }
-
         private void BSendMessageOnClick(object sender, EventArgs e)
         {
-            _chatClient.SendMessage(tMessage.Text);
+            _chatClient.SendMessage(tName.Text, tMessage.Text);
             tMessage.Text = "";
         }
     }

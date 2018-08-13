@@ -16,7 +16,6 @@ namespace Network.Protocol
 
         private readonly string _tooBigMessage = "toBigMessage";
         private readonly string _invalidMessage = "invalidMessage";
-        private readonly string _invalidAuthorize = "invalidAuthorize";
         private readonly string _invalidRequest = "invalidRequest";
         private readonly string _invalidResponse = "invalidResponse";
 
@@ -69,12 +68,7 @@ namespace Network.Protocol
         {
             Send(address, new RequestMessage(id, value));
         }
-
-        public override void Authorize(string address, int id, string name)
-        {
-            Send(address, new AuthorizeMessage(id, name));
-        }
-
+      
         public override void Ack(string address, int id, string text)
         {
             Response(address, _ack, id, text);
@@ -120,9 +114,6 @@ namespace Network.Protocol
 
                 switch (message.TypeMessage)
                 {
-                    case "authorize":
-                        ReceiveAuthorize(address, message);
-                        break;
                     case "request":
                         ReceiveRequest(address, message);
                         break;
@@ -149,19 +140,6 @@ namespace Network.Protocol
             if (errorMessage != null)
             {
                 CallErrorReceived(address, errorMessage.Error);
-            }
-        }
-
-        private void ReceiveAuthorize(string address, IMessage message)
-        {
-            var autorizeMessage = message as AuthorizeMessage;
-            if (autorizeMessage != null && autorizeMessage.Name != null)
-            {
-                CallAuthorizeReceived(address, autorizeMessage.Id, autorizeMessage.Name);
-            }
-            else
-            {
-                Error(address, _invalidAuthorize);
             }
         }
 

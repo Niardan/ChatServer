@@ -10,7 +10,7 @@ namespace ChatServer
     public class ChatServer
     {
         private readonly ProtocolUdpNetwork _network;
-        private readonly IDictionary<IOwner, string> _clients = new Dictionary<IOwner, string>();
+        private readonly ICollection<IOwner> _clients = new HashSet<IOwner>();
         private readonly Queue<Tuple<IOwner, IValue, ICallbacks>> _request = new Queue<Tuple<IOwner, IValue, ICallbacks>>();
 
         private readonly string _dublicateUsername = "dublicateUsername";
@@ -26,10 +26,15 @@ namespace ChatServer
         {
             _network = network;
             _maxLengthMessage = maxLengthMessage;
-            _network.AuthorizeReceived += OnAuthorizeReceived;
+            _network.Connected += NetworkOnConnected;
             _network.Disconnected += OnDisconnected;
             _network.RequestReceived += OnRequestReceived;
-            Console.WriteLine("ChatServer Run");
+        }
+
+        private void NetworkOnConnected(IUdpNetwork network, IOwner owner)
+        {
+            Console.WriteLine("Connected, address: {0}", owner.Id);
+            _clients.Add(owner);
         }
 
         public void Udpate()
@@ -59,13 +64,11 @@ namespace ChatServer
                     return;
                 }
 
-                string name = _clients[owner];
                 foreach (var client in _clients)
                 {
-                    IOwner clientOwner = client.Key;
-                    if (clientOwner != owner)
+                    if (client != owner)
                     {
-                        _network.Request(clientOwner, value, new ChatMessageCallbacks(name, client.Value, value.Message));
+                        _network.Request(client, value, new ChatMessageCallbacks(client.Id, value.Name, value.Message));
                     }
                 }
                 callback.Ack(_ok);
@@ -74,41 +77,15 @@ namespace ChatServer
 
         private void OnRequestReceived(IUdpNetwork network, IOwner owner, IValue request, ICallbacks callbacks)
         {
-            Console.WriteLine("RequestReceived");
+            var chatValue = (ChatValue)request;
+            Console.WriteLine("Server receive chat message, address: {0}, name: {1}, message: {2}", owner.Id, chatValue.Name, chatValue.Message);
             _request.Enqueue(new Tuple<IOwner, IValue, ICallbacks>(owner, request, callbacks));
         }
 
         private void OnDisconnected(IUdpNetwork network, IOwner owner)
         {
-            Console.WriteLine("Disconneted");
+            Console.WriteLine("Disconneted, address: {0}", owner.Id);
             _clients.Remove(owner);
-        }
-
-        private void OnAuthorizeReceived(IUdpNetwork network, IOwner owner, string name, ICallbacks callbacks)
-        {
-            if (string.IsNullOrEmpty(name))
-            {
-                Console.WriteLine("Authorized failed");
-                callbacks.Fail(_incorrectUsername);
-                _network.Authorize(owner, false);
-                return;
-            }
-
-            foreach (var item in _clients.Values)
-            {
-                if (item == name)
-                {
-                    Console.WriteLine("Authorized failed");
-                    callbacks.Fail(_dublicateUsername);
-                    _network.Authorize(owner, false);
-                    return;
-                }
-            }
-
-            Console.WriteLine("Authorized true");
-            callbacks.Ack(_ok);
-            _network.Authorize(owner, true);
-            _clients.Add(owner, name);
         }
     }
 }
