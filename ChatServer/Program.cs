@@ -18,7 +18,7 @@ namespace ChatServer
         {
             var parametrs = new Parametrs("config.ini");
             parametrs.LoadParametrs();
-            var transport = new LiteNetLibServerTransport(parametrs.MaxConnection, parametrs.KeyConnection);
+            var transport = new LiteNetLibTransport(parametrs.MaxConnection, parametrs.KeyConnection);
             var protocol = new TransportUdpProtocol(transport, parametrs.MaxMessageSize, new BinarySerializer());
             var network = new ProtocolUdpNetwork(protocol, new RealNow(), parametrs.Timeout);
             _server = new ChatServer(network, parametrs.MaxMessageLength);

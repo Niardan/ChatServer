@@ -28,7 +28,7 @@ namespace ChatServer
             catch
             {
                 _parametrs = new ParametrsModel();
-                _parametrs.MaxConnection = 1;
+                _parametrs.MaxConnection = 10;
                 _parametrs.KeyConnection = "1234";
                 _parametrs.MaxMessageSize = 1000;
                 _parametrs.MaxMessageLength = 10;

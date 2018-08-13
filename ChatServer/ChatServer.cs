@@ -27,6 +27,7 @@ namespace ChatServer
             _network = network;
             _maxLengthMessage = maxLengthMessage;
             _network.AuthorizeReceived += OnAuthorizeReceived;
+            _network.Connected+=NetworkOnConnected;
             _network.Disconnected += OnDisconnected;
             _network.RequestReceived += OnRequestReceived;
             Console.WriteLine("ChatServer Run");
@@ -72,15 +73,22 @@ namespace ChatServer
             }
         }
 
+        private void NetworkOnConnected(IUdpNetwork network, IOwner owner)
+        {
+            Console.WriteLine("Connected, address: {0}", owner.Id);
+        }
+
         private void OnRequestReceived(IUdpNetwork network, IOwner owner, IValue request, ICallbacks callbacks)
         {
-            Console.WriteLine("RequestReceived");
+            var chatValue = (ChatValue)request;
+            Console.WriteLine("Server receive chat message, address: {0}, name: {1}, message: {2}", owner.Id, chatValue.Name, chatValue.Message);
+
             _request.Enqueue(new Tuple<IOwner, IValue, ICallbacks>(owner, request, callbacks));
         }
 
         private void OnDisconnected(IUdpNetwork network, IOwner owner)
         {
-            Console.WriteLine("Disconneted");
+            Console.WriteLine("Disconneted, address: {0}", owner.Id);
             _clients.Remove(owner);
         }
 
@@ -104,8 +112,8 @@ namespace ChatServer
                     return;
                 }
             }
-
-            Console.WriteLine("Authorized true");
+            Console.WriteLine("Authorized true, address: {0}", owner.Id);
+           
             callbacks.Ack(_ok);
             _network.Authorize(owner, true);
             _clients.Add(owner, name);

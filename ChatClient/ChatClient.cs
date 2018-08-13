@@ -96,7 +96,7 @@ namespace ChatClient
 
         public void FailAuthorize(string reason)
         {
-            CallChangeStage(ClientStage.Autorized);
+            CallChangeStage(ClientStage.Connected);
             CallMessage("Authorized Fail, Reason: " + reason, true);
         }
 

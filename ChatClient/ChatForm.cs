@@ -20,7 +20,7 @@ namespace ChatClient
             parametrs.LoadParametrs();
             parametrs.SaveParametrs();
 
-            var transport = new LiteNetLibClientTransport(parametrs.MaxConnection, parametrs.KeyConnection);
+            var transport = new LiteNetLibTransport(parametrs.MaxConnection, parametrs.KeyConnection);
             var protocol = new TransportUdpProtocol(transport, parametrs.MaxMessageSize, new BinarySerializer());
             var network = new ProtocolUdpNetwork(protocol, new RealNow(), parametrs.Timeout);
 
@@ -40,6 +40,7 @@ namespace ChatClient
                     tName.Enabled = false;
                     bAuthorization.Enabled = false;
                     bSendMessage.Enabled = false;
+                    AcceptButton = bConnect;
                     break;
 
                 case ClientStage.Disconnected:
@@ -60,6 +61,7 @@ namespace ChatClient
                     bAuthorization.Enabled = true;
                     bConnect.Text = "Diconnect";
                     bConnect.Enabled = true;
+                    AcceptButton = bAuthorization;
                     break;
 
                 case ClientStage.Authorizing:
@@ -70,6 +72,7 @@ namespace ChatClient
                 case ClientStage.Autorized:
                     tMessage.Enabled = true;
                     bSendMessage.Enabled = true;
+                    AcceptButton = bSendMessage;
                     break;
             }
         }
